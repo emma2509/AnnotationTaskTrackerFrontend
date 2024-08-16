@@ -2,6 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+For the UI components, this package uses [AWS Cloudscape](https://cloudscape.design/).
+
+## Installation
+* Ensure you have node and npm
+* Run `npm install` - this will install all libraries and packages needed
+
 ## Available Scripts
 
 In the project directory, you can run:

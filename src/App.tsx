@@ -1,7 +1,8 @@
+import Alert from "@cloudscape-design/components/alert";
 
 function App() {
   return (
-    <p> React app </p>
+    <Alert> React App </Alert>
   );
 }
 
