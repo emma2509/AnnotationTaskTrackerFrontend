@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./Pages/LogInPage";
-import RegisterPage from "./Pages/RegisterPage";
 import * as React from "react";
 import ContentLayout from "@cloudscape-design/components/content-layout";
 import Header from "@cloudscape-design/components/header";
@@ -16,7 +15,6 @@ export default function AppRoutes() {
               <BrowserRouter>
                   <Routes>
                     <Route path="/" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
                   </Routes>
               </BrowserRouter>
           </ContentLayout>}

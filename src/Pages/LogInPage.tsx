@@ -1,4 +1,5 @@
+import Register from "../Components/Register";
 
 export default function LoginPage() {
-    return <p> Log in page </p>
+    return <Register />
 }

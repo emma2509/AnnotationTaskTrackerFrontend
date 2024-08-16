@@ -11,7 +11,7 @@ import Alert from "@cloudscape-design/components/alert";
 import {callApi} from "../Utils/CallApi";
 
 
-export default function RegisterPage(){
+export default function Register(){
     // Set initial states
     const [userName, setUserName] = React.useState<string>("");
     const [firstName, setFirstName] = React.useState<string>("");
