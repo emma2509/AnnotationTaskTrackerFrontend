@@ -19,17 +19,20 @@ export default function Register(){
     const [teamName, setTeamName] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [isAdmin, setIsAdmin] = React.useState<boolean>(false);
-    const [error, setError]= React.useState<undefined | string>(undefined);
+    const [errorMessage, setErrorMessage]= React.useState<undefined | string>(undefined);
+    const [apiStatus, setApiStatus]= React.useState<string>(""); // hold status of api call
 
     async function buttonClicked() {
+        setErrorMessage(undefined)
         // check if values are empty
         if (userName === "" || firstName === "" || secondName === "" || teamName === "" || password === ""){
-            setError("There is an empty value")
+            setErrorMessage("There is an empty value")
             // setResponse("There is an empty value")
             return
         }
 
         // API call to add to the database
+        setApiStatus("waiting")
         const requestBody = {
             "user-name": userName,
             "first-name": firstName,
@@ -42,8 +45,9 @@ export default function Register(){
 
         // check if API returns an error
         if (apiResponse["statusCode"] !== 200) {
-            setError(apiResponse["body"])
+            setErrorMessage(apiResponse["body"])
         }
+        setApiStatus("completed")
     }
 
     return (
@@ -83,14 +87,20 @@ export default function Register(){
                     </FormField>
                 </SpaceBetween>
             </Form>
-            {error &&
+            {errorMessage &&
                 <Alert
                 statusIconAriaLabel="Error"
                 type="error"
                 header="Error"
                 >
-                    {error}
+                    {errorMessage}
                 </Alert>
+            }
+            {apiStatus === "waiting" &&
+                <Alert
+                statusIconAriaLabel="Info"
+                header="Please wait"
+                 />
             }
         </Container>
     )
