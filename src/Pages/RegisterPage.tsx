@@ -10,8 +10,13 @@ import Toggle from "@cloudscape-design/components/toggle";
 import Alert from "@cloudscape-design/components/alert";
 import {callApi} from "../Utils/CallApi";
 
+// Props interface needed to pass in values to register page
+interface RegisterProps {
+    changePageView: React.Dispatch<React.SetStateAction<string>>
+}
 
-export default function Register(){
+
+export default function RegisterPage(props: RegisterProps){
     // Set initial states
     const [userName, setUserName] = React.useState<string>("");
     const [firstName, setFirstName] = React.useState<string>("");
@@ -48,6 +53,7 @@ export default function Register(){
             setErrorMessage(apiResponse["body"])
         }
         setApiStatus("completed")
+        props.changePageView("annotation")
     }
 
     return (
@@ -100,7 +106,9 @@ export default function Register(){
                 <Alert
                 statusIconAriaLabel="Info"
                 header="Please wait"
-                 />
+                >
+                    It can take a minute if this is your first time using the site
+                </Alert>
             }
         </Container>
     )
