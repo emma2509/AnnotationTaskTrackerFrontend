@@ -47,6 +47,10 @@ export default function LoginPage(props: LogInProps) {
             setError(apiResponse["body"])
             return
         }
+        if (apiResponse["body"][0][0] !== password){ // API returns a 2D array so need to check index 0,0
+            setError("Password is incorrect")
+            return
+        }
         props.changePageView("annotation")
     }
 
