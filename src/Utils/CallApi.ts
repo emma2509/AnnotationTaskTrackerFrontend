@@ -1,6 +1,11 @@
 import {API_URL} from "../config";
 
-export async function callApi(requestBody: any, apiRoute: string, method: string): Promise<any> {
+interface apiResponseFormat {
+    statusCode: number,
+    body: string
+}
+
+export async function callApi(requestBody: any, apiRoute: string, method: string): Promise<apiResponseFormat> {
     const apiResponse = await fetch(`${API_URL}/${apiRoute}`,
         {
             method: method,
@@ -9,6 +14,11 @@ export async function callApi(requestBody: any, apiRoute: string, method: string
         }
     )
         .then(async (response) => {return await response.json()})
-        .catch(error => error);
+        .catch(error => {
+            return {
+                statusCode: 400,
+                body: `Error with api call: ${error}`
+            }
+        });
     return apiResponse;
 }
