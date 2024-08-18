@@ -51,6 +51,8 @@ export default function RegisterPage(props: RegisterProps){
         // check if API returns an error
         if (apiResponse["statusCode"] !== 200) {
             setErrorMessage(apiResponse["body"])
+            setApiStatus("completed")
+            return
         }
         setApiStatus("completed")
         props.changePageView("annotation")
