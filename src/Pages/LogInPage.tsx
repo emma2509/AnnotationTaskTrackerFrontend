@@ -43,11 +43,11 @@ export default function LoginPage(props: LogInProps) {
         setWaiting(false)
 
         // handle api response
-        if (apiResponse["statusCode"] !== 200){
-            setError(apiResponse["body"])
+        if (apiResponse.statusCode !== 200){
+            setError(apiResponse.body)
             return
         }
-        if (apiResponse["body"][0][0] !== password){ // API returns a 2D array so need to check index 0,0
+        if (apiResponse.body[0][0] !== password){ // API returns a 2D array so need to check index 0,0
             setError("Password is incorrect")
             return
         }

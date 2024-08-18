@@ -52,8 +52,8 @@ export default function RegisterPage(props: RegisterProps){
         const apiResponse = await callApi(requestBody, "add_user", "POST")
 
         // check if API returns an error
-        if (apiResponse["statusCode"] !== 200) {
-            setErrorMessage(apiResponse["body"])
+        if (apiResponse.statusCode !== 200) {
+            setErrorMessage(apiResponse.body)
             setApiStatus("completed")
             return
         }
