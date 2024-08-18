@@ -29,6 +29,10 @@ export default function LoginPage(props: LogInProps) {
             setError("There are empty fields")
             return
         }
+        if (userName.includes(" ") || password.includes(" ")){
+            setError("One of your fields contains a space - this is invalid")
+            return
+        }
 
         // api call
         const body = {
@@ -66,6 +70,7 @@ export default function LoginPage(props: LogInProps) {
                 <Alert
                     statusIconAriaLabel="Error"
                     type="error"
+                    header="Error"
                 >
                     {error}
                 </Alert>

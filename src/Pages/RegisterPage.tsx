@@ -32,7 +32,10 @@ export default function RegisterPage(props: RegisterProps){
         // check if values are empty
         if (userName === "" || firstName === "" || secondName === "" || teamName === "" || password === ""){
             setErrorMessage("There is an empty value")
-            // setResponse("There is an empty value")
+            return
+        }
+        if (userName.includes(" ") || firstName.includes(" ") || secondName.includes(" ") || teamName.includes(" ") || password.includes(" ")){
+            setErrorMessage("One of your fields contains a space - this is not allowed")
             return
         }
 
