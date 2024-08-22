@@ -1,4 +1,4 @@
-import LoginPage from "./Pages/LogInPage";
+import LogInPage from "./Pages/LogInPage";
 import * as React from "react";
 import ContentLayout from "@cloudscape-design/components/content-layout";
 import Header from "@cloudscape-design/components/header";
@@ -14,7 +14,7 @@ export default function AppRoutes() {
           <ContentLayout
               header={<Header variant="h1">Annotation Task Tracker System</Header>}
           >
-              {pageView === "login" && <LoginPage changePageView={changePageView} />}
+              {pageView === "login" && <LogInPage changePageView={changePageView} />}
               {pageView === "register" && <RegisterPage changePageView={changePageView} />}
               {pageView === "annotation" && <AnnotationTaskPage/>}
           </ContentLayout>}

@@ -15,7 +15,7 @@ interface LogInProps {
     changePageView: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function LoginPage(props: LogInProps) {
+export default function LogInPage(props: LogInProps) {
     const [userName, setUserName] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [error, setError] = React.useState<undefined | string>(undefined);

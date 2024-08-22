@@ -1,11 +1,11 @@
-import {API_URL} from "../config";
+import {API_URL} from "../Config";
 
-interface apiResponseFormat {
+interface ApiResponseFormat {
     statusCode: number,
     body: string
 }
 
-export async function callApi(requestBody: any, apiRoute: string, method: string): Promise<apiResponseFormat> {
+export async function callApi(requestBody: any, apiRoute: string, method: string): Promise<ApiResponseFormat> {
     const apiResponse = await fetch(`${API_URL}/${apiRoute}`,
         {
             method: method,
