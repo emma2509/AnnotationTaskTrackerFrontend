@@ -51,6 +51,7 @@ export default function LoginPage(props: LogInProps) {
             setError("Password is incorrect")
             return
         }
+        alert("You have successful logged in!");
         props.changePageView("annotation")
     }
 

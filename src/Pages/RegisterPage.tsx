@@ -58,6 +58,7 @@ export default function RegisterPage(props: RegisterProps){
             return
         }
         setApiStatus("completed")
+        alert("Your account has been successfully created!");
         props.changePageView("annotation")
     }
 
