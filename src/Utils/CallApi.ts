@@ -1,9 +1,5 @@
 import {API_URL} from "../Config";
-
-export interface ApiResponseFormat {
-    statusCode: number,
-    body: string
-}
+import {ApiResponseFormat} from "./Types";
 
 export async function callApi(requestBody: any, apiRoute: string, method: string): Promise<ApiResponseFormat> {
     let fullApiRequest;

@@ -5,15 +5,8 @@ import Header from "@cloudscape-design/components/header";
 import Table from "@cloudscape-design/components/table";
 import Alert from "@cloudscape-design/components/alert";
 import {formatAnnotationTaskApiResponse} from "../Utils/DataHandling";
+import {AnnotationTasks} from "../Utils/Types";
 
-export interface AnnotationTasks {
-    id: string,
-    userName: string,
-    status: string,
-    originalData: string,
-    annotatedData: string,
-    tags: string,
-}
 
 export default function AnnotationTaskPage(){
 

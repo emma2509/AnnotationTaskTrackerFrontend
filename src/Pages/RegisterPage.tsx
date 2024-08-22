@@ -9,11 +9,7 @@ import * as React from "react";
 import Toggle from "@cloudscape-design/components/toggle";
 import Alert from "@cloudscape-design/components/alert";
 import {callApi} from "../Utils/CallApi";
-
-// Props interface needed to pass in values to register page
-interface RegisterProps {
-    changePageView: React.Dispatch<React.SetStateAction<string>>
-}
+import {RegisterProps} from "../Utils/Types";
 
 
 export default function RegisterPage(props: RegisterProps){

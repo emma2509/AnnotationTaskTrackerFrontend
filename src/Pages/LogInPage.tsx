@@ -9,11 +9,8 @@ import Input from "@cloudscape-design/components/input";
 import Alert from "@cloudscape-design/components/alert";
 import Link from "@cloudscape-design/components/link";
 import {callApi} from "../Utils/CallApi";
+import {LogInProps} from "../Utils/Types";
 
-// Props interface needed to pass in values to log in page
-interface LogInProps {
-    changePageView: React.Dispatch<React.SetStateAction<string>>
-}
 
 export default function LogInPage(props: LogInProps) {
     const [userName, setUserName] = React.useState<string>("");

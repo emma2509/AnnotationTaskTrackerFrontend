@@ -1,5 +1,4 @@
-import {ApiResponseFormat} from "./CallApi";
-import {AnnotationTasks} from "../Pages/AnnotationTaskPage";
+import {AnnotationTasks, ApiResponseFormat} from "./Types";
 
 
 export function formatAnnotationTaskApiResponse(apiResponse: ApiResponseFormat): AnnotationTasks[] | string {
