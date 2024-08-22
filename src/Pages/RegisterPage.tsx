@@ -20,7 +20,7 @@ export default function RegisterPage(props: RegisterProps){
     // Set initial states
     const [userName, setUserName] = React.useState<string>("");
     const [firstName, setFirstName] = React.useState<string>("");
-    const [secondName, setSecondName] = React.useState<string>("");
+    const [lastName, setLastName] = React.useState<string>("");
     const [teamName, setTeamName] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [isAdmin, setIsAdmin] = React.useState<boolean>(false);
@@ -30,11 +30,11 @@ export default function RegisterPage(props: RegisterProps){
     async function buttonClicked() {
         setErrorMessage(undefined)
         // check if values are empty
-        if (userName === "" || firstName === "" || secondName === "" || teamName === "" || password === ""){
+        if (userName === "" || firstName === "" || lastName === "" || teamName === "" || password === ""){
             setErrorMessage("There is an empty value")
             return
         }
-        if (userName.includes(" ") || firstName.includes(" ") || secondName.includes(" ") || teamName.includes(" ") || password.includes(" ")){
+        if (userName.includes(" ") || firstName.includes(" ") || lastName.includes(" ") || teamName.includes(" ") || password.includes(" ")){
             setErrorMessage("One of your fields contains a space - this is not allowed")
             return
         }
@@ -44,7 +44,7 @@ export default function RegisterPage(props: RegisterProps){
         const requestBody = {
             "user-name": userName,
             "first-name": firstName,
-            "second-name": secondName,
+            "last-name": lastName,
             "team": teamName,
             "admin": isAdmin,
             "password": password
@@ -72,8 +72,8 @@ export default function RegisterPage(props: RegisterProps){
                         <Input onChange={({ detail }) => setFirstName(detail.value)} value={firstName}/>
                     </FormField>
 
-                    <FormField label="Second Name">
-                        <Input onChange={({ detail }) => setSecondName(detail.value)} value={secondName}/>
+                    <FormField label="Last Name">
+                        <Input onChange={({ detail }) => setLastName(detail.value)} value={lastName}/>
                     </FormField>
                     <FormField label="Team" description="Enter your team name">
                         <Input onChange={({ detail }) => setTeamName(detail.value)} value={teamName}/>
