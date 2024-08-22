@@ -10,13 +10,14 @@ import Alert from "@cloudscape-design/components/alert";
 import Link from "@cloudscape-design/components/link";
 import {callApi} from "../Utils/CallApi";
 import {LogInProps} from "../Utils/Types";
+import {API_STATUS} from "../Config";
 
 
 export default function LogInPage(props: LogInProps) {
     const [userName, setUserName] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [error, setError] = React.useState<undefined | string>(undefined);
-    const [waiting, setWaiting] = React.useState<boolean>(false);
+    const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
 
     async function buttonClicked(){
         setError(undefined) // re set error
@@ -35,15 +36,17 @@ export default function LogInPage(props: LogInProps) {
         const body = {
             "user-name": userName
         }
-        setWaiting(true)
+        setApiStatus(API_STATUS.WAITING)
         const apiResponse = await callApi(body, "get_user", "POST")
-        setWaiting(false)
 
         // handle api response
         if (apiResponse.statusCode !== 200){
             setError(apiResponse.body)
+            setApiStatus(API_STATUS.ERROR)
             return
         }
+        setApiStatus(API_STATUS.SUCCESS)
+
         if (apiResponse.body[0][0] !== password){ // API returns a 2D array so need to check index 0,0
             setError("Password is incorrect")
             return
@@ -77,7 +80,7 @@ export default function LogInPage(props: LogInProps) {
                     {error}
                 </Alert>
             }
-            {waiting &&
+            {apiStatus === API_STATUS.WAITING &&
                 <Alert>
                     Waiting for back end response - this sometimes can take a minute
                 </Alert>

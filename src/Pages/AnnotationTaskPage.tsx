@@ -6,24 +6,25 @@ import Table from "@cloudscape-design/components/table";
 import Alert from "@cloudscape-design/components/alert";
 import {formatAnnotationTaskApiResponse} from "../Utils/DataHandling";
 import {AnnotationTasks} from "../Utils/Types";
+import {API_STATUS} from "../Config";
 
 
 export default function AnnotationTaskPage(){
 
     const [annotationTasks, setAnnotationTasks] = React.useState<AnnotationTasks[]>();
-    const [apiStatus, setApiStatus] = React.useState<string>("");
-    const [error, setError] = React.useState<string>("");
+    const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
+    const [error, setError] = React.useState<undefined | string>(undefined);
 
     async function getAnnotationTasks(){
         // does api call and handles response
-        setApiStatus("waiting")
+        setApiStatus(API_STATUS.WAITING)
         const apiResponse = await callApi("", "get_annotations", "GET")
         if (apiResponse.statusCode !== 200){
-            setApiStatus("error")
+            setApiStatus(API_STATUS.ERROR)
             setError(apiResponse.body)
             return
         }
-        setApiStatus("success")
+        setApiStatus(API_STATUS.SUCCESS)
 
         const formattedAnnotationTasks = formatAnnotationTaskApiResponse(apiResponse)
         if (typeof formattedAnnotationTasks == "string"){
@@ -84,7 +85,7 @@ export default function AnnotationTaskPage(){
                 />
             }
 
-            {apiStatus === "waiting" && <Alert>Waiting for API response</Alert>}
+            {apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response</Alert>}
 
             {error && <Alert
                 statusIconAriaLabel="Error"

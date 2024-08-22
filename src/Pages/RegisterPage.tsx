@@ -10,6 +10,7 @@ import Toggle from "@cloudscape-design/components/toggle";
 import Alert from "@cloudscape-design/components/alert";
 import {callApi} from "../Utils/CallApi";
 import {RegisterProps} from "../Utils/Types";
+import {API_STATUS} from "../Config";
 
 
 export default function RegisterPage(props: RegisterProps){
@@ -21,7 +22,7 @@ export default function RegisterPage(props: RegisterProps){
     const [password, setPassword] = React.useState<string>("");
     const [isAdmin, setIsAdmin] = React.useState<boolean>(false);
     const [errorMessage, setErrorMessage]= React.useState<undefined | string>(undefined);
-    const [apiStatus, setApiStatus]= React.useState<string>(""); // hold status of api call
+    const [apiStatus, setApiStatus]= React.useState<API_STATUS>(API_STATUS.NONE); // hold status of api call
 
     async function buttonClicked() {
         setErrorMessage(undefined)
@@ -36,7 +37,7 @@ export default function RegisterPage(props: RegisterProps){
         }
 
         // API call to add to the database
-        setApiStatus("waiting")
+        setApiStatus(API_STATUS.WAITING)
         const requestBody = {
             "user-name": userName,
             "first-name": firstName,
@@ -50,10 +51,10 @@ export default function RegisterPage(props: RegisterProps){
         // check if API returns an error
         if (apiResponse.statusCode !== 200) {
             setErrorMessage(apiResponse.body)
-            setApiStatus("completed")
+            setApiStatus(API_STATUS.ERROR)
             return
         }
-        setApiStatus("completed")
+        setApiStatus(API_STATUS.SUCCESS)
         alert("Your account has been successfully created!");
         props.changePageView("annotation")
     }
@@ -104,7 +105,7 @@ export default function RegisterPage(props: RegisterProps){
                     {errorMessage}
                 </Alert>
             }
-            {apiStatus === "waiting" &&
+            {apiStatus === API_STATUS.WAITING &&
                 <Alert
                 statusIconAriaLabel="Info"
                 header="Please wait"
