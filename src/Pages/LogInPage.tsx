@@ -37,7 +37,7 @@ export default function LogInPage(props: LogInProps) {
             "user-name": userName
         }
         setApiStatus(API_STATUS.WAITING)
-        const apiResponse = await callApi(body, "get_user", "POST")
+        const apiResponse = await callApi(body, "get_user_password", "POST")
 
         // handle api response
         if (apiResponse.statusCode !== 200){
