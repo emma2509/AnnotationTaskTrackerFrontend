@@ -4,16 +4,21 @@ import Container from "@cloudscape-design/components/container";
 import Header from "@cloudscape-design/components/header";
 import Table from "@cloudscape-design/components/table";
 import Alert from "@cloudscape-design/components/alert";
-import {formatAnnotationTaskApiResponse} from "../Utils/DataHandling";
+import Button from "@cloudscape-design/components/button";
+import {formatAnnotationTaskApiResponse, formatGetUsersApiResponse} from "../Utils/DataHandling";
 import {AnnotationTasks} from "../Utils/Types";
 import {API_STATUS} from "../Config";
+import {AddRecord} from "../Components/AddRecord";
+import {ButtonDropdownProps} from "@cloudscape-design/components";
 
 
 export default function AnnotationTaskPage(){
-
+    const [addRecordComponentVisible, setAddRecordComponentVisible] = React.useState<boolean>(false);
     const [annotationTasks, setAnnotationTasks] = React.useState<AnnotationTasks[]>();
     const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
     const [error, setError] = React.useState<undefined | string>(undefined);
+    // set to undefined until api call has been completed and data has been received
+    const [allUsers, setAllUsers] = React.useState<ReadonlyArray<ButtonDropdownProps.Item> | undefined>(undefined);
 
     async function getAnnotationTasks(){
         // does api call and handles response
@@ -34,10 +39,39 @@ export default function AnnotationTaskPage(){
         setAnnotationTasks(formattedAnnotationTasks)
     }
 
-    // get annotation tasks on component render
+    // need to get all users for when adding/updating annotation tasks
+    async function getUsers(){
+        // api call to get users
+        setApiStatus(API_STATUS.WAITING)
+        const getUsers = await callApi("", "get_users", "GET");
+        if (getUsers.statusCode !== 200){
+            setApiStatus(API_STATUS.ERROR)
+            setError(getUsers.body)
+            return
+        }
+        setApiStatus(API_STATUS.SUCCESS)
+
+        // formats response
+        const formattedUsers = formatGetUsersApiResponse(getUsers);
+        if (typeof formattedUsers === "string"){
+            setError(formattedUsers)
+            return
+        }
+        setAllUsers(formattedUsers)
+    }
+
+    // get annotation tasks and all users on component render
     React.useEffect(() => {
         getAnnotationTasks().then()
+        getUsers().then()
     }, []);
+
+    // everytime addRecordComponentVisible is updated it is checked to see if it is false and if so the table is updated
+    React.useEffect(() => {
+        if (!addRecordComponentVisible){
+            getAnnotationTasks().then()
+        }
+    }, [addRecordComponentVisible])
 
     return (
         <Container header={<Header>Annotation Tasks </Header>}>
@@ -82,10 +116,15 @@ export default function AnnotationTaskPage(){
                     resizableColumns
                     stickyHeader
                     variant="embedded"
+                    header={
+                    <Button iconName="add-plus" onClick={() => setAddRecordComponentVisible(true)}>
+                        Add annotation task
+                    </Button>
+                }
                 />
             }
 
-            {apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response</Alert>}
+            {apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
 
             {error && <Alert
                 statusIconAriaLabel="Error"
@@ -93,6 +132,14 @@ export default function AnnotationTaskPage(){
             >
                 Error: {error}
             </Alert>
+            }
+
+            {allUsers &&
+                <AddRecord
+                    visible={addRecordComponentVisible}
+                    setVisible={setAddRecordComponentVisible}
+                    allUsers={allUsers}
+                />
             }
         </Container>
     )

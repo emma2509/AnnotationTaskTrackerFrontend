@@ -1,5 +1,6 @@
 // Props interface needed to pass in values to register page
 import * as React from "react";
+import {ButtonDropdownProps} from "@cloudscape-design/components";
 
 export interface RegisterProps {
     changePageView: React.Dispatch<React.SetStateAction<string>>
@@ -21,4 +22,10 @@ export interface AnnotationTasks {
 export interface ApiResponseFormat {
     statusCode: number,
     body: string
+}
+
+export interface AddRecordProps{
+    visible: boolean
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>
+    allUsers: ReadonlyArray<ButtonDropdownProps.Item>
 }
