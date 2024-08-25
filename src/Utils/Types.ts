@@ -1,6 +1,7 @@
-// Props interface needed to pass in values to register page
 import * as React from "react";
 import {ButtonDropdownProps} from "@cloudscape-design/components";
+
+// Props interfaces needed to pass in values to components
 
 export interface RegisterProps {
     changePageView: React.Dispatch<React.SetStateAction<string>>
@@ -24,20 +25,20 @@ export interface ApiResponseFormat {
     body: string
 }
 
-export interface AddRecordProps{
+export interface AddRecordProps {
     visible: boolean
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
     allUsers: ReadonlyArray<ButtonDropdownProps.Item>
 }
 
-export interface UpdateRecordProps{
+export interface UpdateRecordProps {
     visible: boolean
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
     annotationRecords: AnnotationTasks[]
     allUsers: ReadonlyArray<ButtonDropdownProps.Item>
 }
 
-export interface AnnotationRecordFormProps{
+export interface AnnotationRecordFormProps {
     actionType: string
     buttonClick: Function
     userName: string,
