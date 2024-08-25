@@ -35,3 +35,19 @@ export interface UpdateRecordProps{
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
     annotationRecords: AnnotationTasks[]
 }
+
+export interface AnnotationRecordFormProps{
+    actionType: string
+    buttonClick: Function
+    userName: string,
+    setUserName: React.Dispatch<React.SetStateAction<string>>,
+    annotationStatus: string,
+    setAnnotationStatus: React.Dispatch<React.SetStateAction<string>>,
+    originalData: string,
+    setOriginalData: React.Dispatch<React.SetStateAction<string>>,
+    annotatedData: string,
+    setAnnotatedData: React.Dispatch<React.SetStateAction<string>>,
+    tags: string
+    setTags: React.Dispatch<React.SetStateAction<string>>
+    allUsers: ReadonlyArray<ButtonDropdownProps.Item>
+}

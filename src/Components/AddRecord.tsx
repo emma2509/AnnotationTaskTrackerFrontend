@@ -1,17 +1,11 @@
 import * as React from "react";
 import Modal from "@cloudscape-design/components/modal";
-import Button from "@cloudscape-design/components/button";
 import {AddRecordProps} from "../Utils/Types";
-import Form from "@cloudscape-design/components/form";
-import SpaceBetween from "@cloudscape-design/components/space-between";
-import FormField from "@cloudscape-design/components/form-field";
-import Input from "@cloudscape-design/components/input";
-import ButtonDropdown from "@cloudscape-design/components/button-dropdown";
-import Textarea from "@cloudscape-design/components/textarea";
 import {ANNOTATION_STATUS_OPTIONS, API_STATUS} from "../Config";
 import {isAnnotationRecordValid, transformTagInput} from "../Utils/DataHandling";
 import Alert from "@cloudscape-design/components/alert";
 import {callApi} from "../Utils/CallApi";
+import {AnnotationRecordForm} from "../Components/AnnotationRecordForm";
 
 
 export function AddRecord(props: AddRecordProps){
@@ -51,7 +45,7 @@ export function AddRecord(props: AddRecordProps){
         props.setVisible(false)
 
         // reset string inputs to be empty
-        setUserName("")
+        setUserName(props.allUsers[0].id)
         setOriginalData("")
         setAnnotatedData("")
         setTags("")
@@ -63,59 +57,33 @@ export function AddRecord(props: AddRecordProps){
             visible={props.visible}
             header="Enter the annotation task details"
         >
-            <Form actions={<Button onClick={() => addButtonPressed()}>Add</Button>}>
-                <SpaceBetween size={'m'}>
+            <AnnotationRecordForm
+                actionType={"Add"}
+                buttonClick={addButtonPressed}
+                userName={userName}
+                setUserName={setUserName}
+                annotationStatus={annotationStatus}
+                setAnnotationStatus={setAnnotationStatus}
+                originalData={originalData}
+                setOriginalData={setOriginalData}
+                annotatedData={annotatedData}
+                setAnnotatedData={setAnnotatedData}
+                tags={tags}
+                setTags={setTags}
+                allUsers={props.allUsers}
 
-                    <FormField label="User Name"  description="Annotation task owner">
-                        <ButtonDropdown
-                            items={props.allUsers}
-                            onItemClick={(item) => setUserName(item.detail.id)}
-                        >
-                            {userName}
-                        </ButtonDropdown>
-                    </FormField>
+            />
 
-                    <FormField label="Annotation Status">
-                        <ButtonDropdown
-                            items={ANNOTATION_STATUS_OPTIONS}
-                            onItemClick={(item) => setAnnotationStatus(item.detail.id)}
-                        >
-                            {annotationStatus}
-                        </ButtonDropdown>
-                    </FormField>
+            {apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
 
-                    <FormField label="Original un-annotated data" description="REQUIRED">
-                        <Textarea
-                            onChange={({ detail }) => setOriginalData(detail.value)}
-                            value={originalData}
-                        />
-                    </FormField>
+            {error && <Alert
+                statusIconAriaLabel="Error"
+                type="error"
+            >
+                Error: {error}
+            </Alert>
+            }
 
-                    <FormField label="Annotated data">
-                        <Textarea
-                            onChange={({ detail }) => setAnnotatedData(detail.value)}
-                            value={annotatedData}
-                            disabled={annotationStatus !== "Completed"}
-                        />
-                    </FormField>
-
-                    <FormField label="Tags" description="OPTIONAL. This should be in the form of a list (example: tag1, tag2), separate the tags with commas">
-                        <Input onChange={({ detail }) => setTags(detail.value)} value={tags}/>
-                    </FormField>
-
-                </SpaceBetween>
-
-                {apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
-
-                {error && <Alert
-                    statusIconAriaLabel="Error"
-                    type="error"
-                >
-                    Error: {error}
-                </Alert>
-                }
-
-            </Form>
         </Modal>
     );
 }
