@@ -69,12 +69,14 @@ export default function AnnotationTaskPage(){
         getUsers().then()
     }, []);
 
-    // everytime addRecordComponentVisible is updated it is checked to see if it is false and if so the table is updated
+    // everytime addRecordComponentVisible or updateRecordComponentVisible is updated, it is checked to see if they are both false(both hidden)
+    // as this means the users is now viewing the main annotation page and was just adding or updating a component
     React.useEffect(() => {
-        if (!addRecordComponentVisible){
+        if (!addRecordComponentVisible && !updateRecordComponentVisible){
             getAnnotationTasks().then()
         }
-    }, [addRecordComponentVisible])
+    }, [addRecordComponentVisible, updateRecordComponentVisible])
+
 
     return (
         <Container header={<Header>Annotation Tasks </Header>}>
@@ -150,11 +152,12 @@ export default function AnnotationTaskPage(){
                 />
             }
 
-            {annotationTasks &&
+            {(annotationTasks && allUsers) &&
                 <UpdateRecord
                     visible={updateRecordComponentVisible}
                     setVisible={setUpdateRecordComponentVisible}
                     annotationRecords={annotationTasks}
+                    allUsers={allUsers}
                 />
             }
         </Container>

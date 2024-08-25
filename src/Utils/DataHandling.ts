@@ -70,12 +70,26 @@ export function isAnnotationRecordValid(
 }
 
 
+// this converts the inputted list to the input expected by the database
 export function transformTagInput(tags: string) {
     let convertedTagList: any = tags.split(",")
     convertedTagList = convertedTagList.map((tag: string) => `"${tag.trim()}"`)
     convertedTagList = `[${convertedTagList.join(',')}]`
     return convertedTagList
 }
+
+// this takes the database format and converts to the input list format
+export function transformDatabaseTag (tag: string){
+    let convertedTagList: string = tag
+    // replace quotes
+    convertedTagList= convertedTagList.replaceAll('"', "")
+
+    // replace array brackets
+    convertedTagList= convertedTagList.replaceAll("[","")
+    convertedTagList= convertedTagList.replaceAll("]","")
+    return convertedTagList
+}
+
 
 export function findRecord(annotationRecords: AnnotationTasks[], annotationId: string){
     // loop through all records to find one with the same id

@@ -123,6 +123,7 @@
       "@styles/*": ["src/styles/*"],
       "@static/*": ["src/static/*"]
     },
+    "lib": ["ES2021", "es5", "es6", "dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
