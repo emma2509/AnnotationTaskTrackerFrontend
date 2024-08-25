@@ -10,7 +10,7 @@ import Alert from "@cloudscape-design/components/alert";
 import Link from "@cloudscape-design/components/link";
 import {callApi} from "../Utils/CallApi";
 import {LogInProps} from "../Utils/Types";
-import {API_STATUS} from "../Config";
+import {API_METHODS, API_STATUS} from "../Config";
 
 
 export default function LogInPage(props: LogInProps) {
@@ -37,7 +37,7 @@ export default function LogInPage(props: LogInProps) {
             "user-name": userName
         }
         setApiStatus(API_STATUS.WAITING)
-        const apiResponse = await callApi(body, "get_user_password", "POST")
+        const apiResponse = await callApi(body, "get_user_password", API_METHODS.POST)
 
         // handle api response
         if (apiResponse.statusCode !== 200){

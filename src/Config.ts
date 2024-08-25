@@ -13,3 +13,8 @@ export const ANNOTATION_STATUS_OPTIONS = [
     { text: "In progress", id: "In progress"},
     { text: "Completed", id: "Completed"}
 ]
+
+export enum API_METHODS {
+    POST = "POST",
+    GET = "GET"
+}

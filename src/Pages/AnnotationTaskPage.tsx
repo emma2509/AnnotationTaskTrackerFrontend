@@ -8,7 +8,7 @@ import Button from "@cloudscape-design/components/button";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import {formatAnnotationTaskApiResponse, formatGetUsersApiResponse} from "../Utils/DataHandling";
 import {AnnotationTasks} from "../Utils/Types";
-import {API_STATUS} from "../Config";
+import {API_METHODS, API_STATUS} from "../Config";
 import {AddRecord} from "../Components/AddRecord";
 import {UpdateRecord} from "../Components/UpdateRecord";
 import {ButtonDropdownProps} from "@cloudscape-design/components";
@@ -26,7 +26,7 @@ export default function AnnotationTaskPage(){
     async function getAnnotationTasks(){
         // does api call and handles response
         setApiStatus(API_STATUS.WAITING)
-        const apiResponse = await callApi("", "get_annotations", "GET")
+        const apiResponse = await callApi("", "get_annotations", API_METHODS.GET)
         if (apiResponse.statusCode !== 200){
             setApiStatus(API_STATUS.ERROR)
             setError(apiResponse.body)
@@ -46,7 +46,7 @@ export default function AnnotationTaskPage(){
     async function getUsers(){
         // api call to get users
         setApiStatus(API_STATUS.WAITING)
-        const getUsers = await callApi("", "get_users", "GET");
+        const getUsers = await callApi("", "get_users", API_METHODS.GET);
         if (getUsers.statusCode !== 200){
             setApiStatus(API_STATUS.ERROR)
             setError(getUsers.body)
