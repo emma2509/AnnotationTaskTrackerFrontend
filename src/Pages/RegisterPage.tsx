@@ -10,7 +10,7 @@ import Toggle from "@cloudscape-design/components/toggle";
 import Alert from "@cloudscape-design/components/alert";
 import {callApi} from "../Utils/CallApi";
 import {RegisterProps} from "../Utils/Types";
-import {API_METHODS, API_STATUS} from "../Config";
+import {API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 
 
 export default function RegisterPage(props: RegisterProps){
@@ -46,7 +46,7 @@ export default function RegisterPage(props: RegisterProps){
             "admin": isAdmin,
             "password": password
         }
-        const apiResponse = await callApi(requestBody, "add_user", API_METHODS.POST)
+        const apiResponse = await callApi(requestBody, API_ROUTES.ADD_USER, API_METHODS.POST)
 
         // check if API returns an error
         if (apiResponse.statusCode !== 200) {

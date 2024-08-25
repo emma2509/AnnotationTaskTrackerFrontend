@@ -1,7 +1,7 @@
-import {API_METHODS, API_URL} from "../Config";
+import {API_METHODS, API_ROUTES, API_URL} from "../Config";
 import {ApiResponseFormat} from "./Types";
 
-export async function callApi(requestBody: any, apiRoute: string, method: API_METHODS): Promise<ApiResponseFormat> {
+export async function callApi(requestBody: any, apiRoute: API_ROUTES, method: API_METHODS): Promise<ApiResponseFormat> {
     let fullApiRequest;
     if (method === API_METHODS.GET){
         fullApiRequest = {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Modal from "@cloudscape-design/components/modal";
 import {AddRecordProps} from "../Utils/Types";
-import {ANNOTATION_STATUS_OPTIONS, API_METHODS, API_STATUS} from "../Config";
+import {ANNOTATION_STATUS_OPTIONS, API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {isAnnotationRecordValid, transformTagInput} from "../Utils/DataHandling";
 import Alert from "@cloudscape-design/components/alert";
 import {callApi} from "../Utils/CallApi";
@@ -34,7 +34,7 @@ export function AddRecord(props: AddRecordProps){
             "tags": transformTagInput(tags)
         }
         setApiStatus(API_STATUS.WAITING)
-        const addRecordCall = await callApi(annotationFields, "add_annotation", API_METHODS.POST)
+        const addRecordCall = await callApi(annotationFields, API_ROUTES.ADD_ANNOTATION, API_METHODS.POST)
         if (addRecordCall.statusCode !== 200){
             setError(`Issue with API call, failed with message: ${addRecordCall.body}`)
             setApiStatus(API_STATUS.ERROR)

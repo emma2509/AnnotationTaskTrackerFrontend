@@ -7,7 +7,7 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import * as React from "react";
 import Alert from "@cloudscape-design/components/alert";
 import {AnnotationRecordForm} from "../Components/AnnotationRecordForm";
-import {API_METHODS, API_STATUS} from "../Config";
+import {API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {callApi} from "../Utils/CallApi";
 
 
@@ -46,7 +46,7 @@ export function UpdateRecord (props: UpdateRecordProps) {
             "tags": transformTagInput(tags)
         }
         setApiStatus(API_STATUS.WAITING)
-        const apiCall = await callApi(newAnnotationRecord, "update_annotation", API_METHODS.POST)
+        const apiCall = await callApi(newAnnotationRecord, API_ROUTES.UPDATE_ANNOTATION, API_METHODS.POST)
         if (apiCall.statusCode !== 200){
             setError(`Issue with API call, failed with message: ${apiCall.body}`)
             setApiStatus(API_STATUS.ERROR)

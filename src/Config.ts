@@ -18,3 +18,12 @@ export enum API_METHODS {
     POST = "POST",
     GET = "GET"
 }
+
+export enum API_ROUTES {
+    ADD_USER = "add_user",
+    GET_USER_PASSWORD = "get_user_password",
+    GET_USERS = "get_users",
+    GET_ANNOTATIONS = "get_annotations",
+    ADD_ANNOTATION = "add_annotation",
+    UPDATE_ANNOTATION = "update_annotation"
+}
