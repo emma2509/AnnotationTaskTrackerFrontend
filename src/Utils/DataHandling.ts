@@ -76,3 +76,13 @@ export function transformTagInput(tags: string) {
     convertedTagList = `[${convertedTagList.join(',')}]`
     return convertedTagList
 }
+
+export function findRecord(annotationRecords: AnnotationTasks[], annotationId: string){
+    // loop through all records to find one with the same id
+    for (const index in annotationRecords){
+        if (String(annotationRecords[index].id) === annotationId) {
+            return annotationRecords[index]
+        }
+    }
+    return null
+}

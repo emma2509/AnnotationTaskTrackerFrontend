@@ -5,15 +5,18 @@ import Header from "@cloudscape-design/components/header";
 import Table from "@cloudscape-design/components/table";
 import Alert from "@cloudscape-design/components/alert";
 import Button from "@cloudscape-design/components/button";
+import SpaceBetween from "@cloudscape-design/components/space-between";
 import {formatAnnotationTaskApiResponse, formatGetUsersApiResponse} from "../Utils/DataHandling";
 import {AnnotationTasks} from "../Utils/Types";
 import {API_STATUS} from "../Config";
 import {AddRecord} from "../Components/AddRecord";
+import {UpdateRecord} from "../Components/UpdateRecord";
 import {ButtonDropdownProps} from "@cloudscape-design/components";
 
 
 export default function AnnotationTaskPage(){
     const [addRecordComponentVisible, setAddRecordComponentVisible] = React.useState<boolean>(false);
+    const [updateRecordComponentVisible, setUpdateRecordComponentVisible] = React.useState<boolean>(false);
     const [annotationTasks, setAnnotationTasks] = React.useState<AnnotationTasks[]>();
     const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
     const [error, setError] = React.useState<undefined | string>(undefined);
@@ -117,9 +120,14 @@ export default function AnnotationTaskPage(){
                     stickyHeader
                     variant="embedded"
                     header={
-                    <Button iconName="add-plus" onClick={() => setAddRecordComponentVisible(true)}>
-                        Add annotation task
-                    </Button>
+                    <SpaceBetween direction="horizontal" size={'s'}>
+                        <Button iconName="add-plus" onClick={() => setAddRecordComponentVisible(true)}>
+                            Add annotation task
+                        </Button>
+                        <Button iconName="edit" onClick={() => setUpdateRecordComponentVisible(true)}>
+                            Update annotation task
+                        </Button>
+                    </SpaceBetween>
                 }
                 />
             }
@@ -139,6 +147,14 @@ export default function AnnotationTaskPage(){
                     visible={addRecordComponentVisible}
                     setVisible={setAddRecordComponentVisible}
                     allUsers={allUsers}
+                />
+            }
+
+            {annotationTasks &&
+                <UpdateRecord
+                    visible={updateRecordComponentVisible}
+                    setVisible={setUpdateRecordComponentVisible}
+                    annotationRecords={annotationTasks}
                 />
             }
         </Container>

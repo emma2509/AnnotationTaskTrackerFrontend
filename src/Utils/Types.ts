@@ -29,3 +29,9 @@ export interface AddRecordProps{
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
     allUsers: ReadonlyArray<ButtonDropdownProps.Item>
 }
+
+export interface UpdateRecordProps{
+    visible: boolean
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>
+    annotationRecords: AnnotationTasks[]
+}
