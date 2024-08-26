@@ -59,3 +59,16 @@ export interface AnnotationRecordFormProps {
     setTags: React.Dispatch<React.SetStateAction<string>>
     allUsers: ReadonlyArray<ButtonDropdownProps.Item>
 }
+
+export interface DeleteRecordProps {
+    visible: boolean
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface AnnotationRecordSearchProps {
+    allAnnotationRecords: AnnotationTasks[]
+    setAnnotationRecordFound: React.Dispatch<React.SetStateAction<AnnotationTasks | undefined>>
+    visible: boolean
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>
+    actionType: string
+}

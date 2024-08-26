@@ -1,17 +1,16 @@
 import {AnnotationTasks, UpdateRecordProps} from "../Utils/Types";
-import {findRecord, isAnnotationRecordValid, transformDatabaseTag, transformTagInput} from "../Utils/DataHandling";
+import {isAnnotationRecordValid, transformTagInput} from "../Utils/DataHandling";
 import Modal from "@cloudscape-design/components/modal";
-import Input from "@cloudscape-design/components/input";
-import Button from "@cloudscape-design/components/button";
-import SpaceBetween from "@cloudscape-design/components/space-between";
 import * as React from "react";
 import Alert from "@cloudscape-design/components/alert";
 import {AnnotationRecordForm} from "../Components/AnnotationRecordForm";
+import {AnnotationRecordSearch} from "../Components/AnnotationRecordSearch";
 import {API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {callApi} from "../Utils/CallApi";
 
 
 export function UpdateRecord (props: UpdateRecordProps) {
+    const [annotationRecord, setAnnotationRecord] = React.useState<AnnotationTasks | undefined>(undefined);
     const [userName, setUserName] = React.useState<string>("");
     const [annotationStatus, setAnnotationStatus] = React.useState<string>("");
     const [originalData, setOriginalData] = React.useState<string>("");
@@ -19,15 +18,10 @@ export function UpdateRecord (props: UpdateRecordProps) {
     const [tags, setTags] = React.useState<string>("");
     const [annotationId, setAnnotationId] = React.useState<string>("");
     const [error, setError] = React.useState<string>("");
-    const [viewToShow, setViewToShow] = React.useState<string>("id");
     const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
 
-    // sets back to default when user exists the pop up
-    function reset(){
-        props.setVisible(false)
-        setViewToShow("id")
-        setAnnotationId("")
-    }
+    // visible values - the passed in visible prop is used for the initial input, the below is used for the second popup the user sees
+    const [formVisible, setFromVisible] = React.useState<boolean>(false);
 
     async function updateButton(){
         // checks inputs
@@ -54,49 +48,42 @@ export function UpdateRecord (props: UpdateRecordProps) {
         }
         setApiStatus(API_STATUS.SUCCESS)
         alert("Task successfully updated!")
-        reset()
+        setFromVisible(false)
     }
 
-    function findRecordButtonClick() {
-        setError("") // clear errors
-        // get the original record values
-        const record: AnnotationTasks | null = findRecord(props.annotationRecords, annotationId)
-        if (!record) {
-            setError("No record with that id found.")
-            return
-        }
-        // set values in record form to be the original record values
-        setUserName(record.userName)
-        setAnnotationStatus(record.status)
-        setOriginalData(record.originalData)
-        setAnnotatedData(record.annotatedData)
-        setTags(transformDatabaseTag(record.tags)) // re-format format database form to user input format
+    // watch annotation record and if updated and not null then a new record is being updated so need to change to form view
+    React.useEffect(() => {
+            if (annotationRecord) {
+                // change view to form
+                setFromVisible(true)
 
-        // show the form and close the find annotation id search
-        setViewToShow("form")
+                // set all field values
+                setUserName(annotationRecord.userName)
+                setAnnotationStatus(annotationRecord.status)
+                setOriginalData(annotationRecord.originalData)
+                setAnnotatedData(annotationRecord.annotatedData)
+                setTags(annotationRecord.tags)
+                setAnnotationId(annotationRecord.id)
+            }
+        },
+        [annotationRecord])
 
-    }
 
     return (
-        <Modal
-            onDismiss={() => reset()}
-            visible={props.visible}
-            header="Updating annotation record"
-        >
-            {viewToShow === "id" &&
-                <SpaceBetween size={'xs'}>
-                    Enter the id of the annotation record you want to update:
-                    <Input
-                        onChange={({ detail }) => setAnnotationId(detail.value)}
-                        value={annotationId}
-                    />
-                    <Button onClick={() => findRecordButtonClick()}>
-                        Find annotation record
-                    </Button>
-                </SpaceBetween>
-            }
+        <>
+            <AnnotationRecordSearch
+                visible={props.visible}
+                setVisible={props.setVisible}
+                allAnnotationRecords={props.annotationRecords}
+                setAnnotationRecordFound={setAnnotationRecord}
+                actionType={"Update"}
+            />
 
-            {viewToShow === "form" &&
+            <Modal
+                onDismiss={() => setFromVisible(false)}
+                visible={formVisible}
+                header="Updating annotation record"
+            >
                 <AnnotationRecordForm
                     actionType={"Update"}
                     buttonClick={updateButton}
@@ -112,19 +99,19 @@ export function UpdateRecord (props: UpdateRecordProps) {
                     setTags={setTags}
                     allUsers={props.allUsers}
                 />
-            }
 
-            {apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
+                {apiStatus === API_STATUS.WAITING &&
+                    <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
 
-            {error &&
-                <Alert
-                    statusIconAriaLabel="Error"
-                    type="error"
-                >
-                Error: {error}
-                </Alert>
-            }
+                {error &&
+                    <Alert
+                        statusIconAriaLabel="Error"
+                        type="error"
+                    >
+                        Error: {error}
+                    </Alert>}
 
-        </Modal>
+            </Modal>
+        </>
     )
 }

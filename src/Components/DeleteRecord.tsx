@@ -1,10 +1,7 @@
 import Modal from "@cloudscape-design/components/modal";
 import * as React from "react";
+import {DeleteRecordProps} from "../Utils/Types";
 
-interface DeleteRecordProps {
-    visible: boolean
-    setVisible: React.Dispatch<React.SetStateAction<boolean>>
-}
 
 export function DeleteRecord(props: DeleteRecordProps){
     return(
