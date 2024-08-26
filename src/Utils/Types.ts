@@ -5,10 +5,16 @@ import {ButtonDropdownProps} from "@cloudscape-design/components";
 
 export interface RegisterProps {
     changePageView: React.Dispatch<React.SetStateAction<string>>
+    setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface LogInProps {
     changePageView: React.Dispatch<React.SetStateAction<string>>
+    setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface AnnotationTaskProps {
+    isAdmin: boolean
 }
 
 export interface AnnotationTasks {

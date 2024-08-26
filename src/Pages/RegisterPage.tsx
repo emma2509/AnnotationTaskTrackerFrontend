@@ -57,6 +57,7 @@ export default function RegisterPage(props: RegisterProps){
         setApiStatus(API_STATUS.SUCCESS)
         alert("Your account has been successfully created!");
         props.changePageView("annotation")
+        props.setIsAdmin(isAdmin)
     }
 
     return (

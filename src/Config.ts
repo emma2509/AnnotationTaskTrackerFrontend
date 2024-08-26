@@ -22,6 +22,7 @@ export enum API_METHODS {
 export enum API_ROUTES {
     ADD_USER = "add_user",
     GET_USER_PASSWORD = "get_user_password",
+    GET_USER_ACCESS = "get_user_access_level",
     GET_USERS = "get_users",
     GET_ANNOTATIONS = "get_annotations",
     ADD_ANNOTATION = "add_annotation",

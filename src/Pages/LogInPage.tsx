@@ -46,11 +46,29 @@ export default function LogInPage(props: LogInProps) {
             return
         }
         setApiStatus(API_STATUS.SUCCESS)
-
         if (apiResponse.body[0][0] !== password){ // API returns a 2D array so need to check index 0,0
             setError("Password is incorrect")
             return
         }
+
+        // get user access level
+
+        setApiStatus(API_STATUS.WAITING)
+        const userAccessApi = await callApi(body, API_ROUTES.GET_USER_ACCESS, API_METHODS.POST)
+        if (userAccessApi.statusCode !== 200){
+            setError(userAccessApi.body)
+            setApiStatus(API_STATUS.ERROR)
+            return
+        }
+        setApiStatus(API_STATUS.SUCCESS)
+
+        if (String(userAccessApi.body[0][0]) === 'true') { // check against string version of response
+            props.setIsAdmin(true)
+        } else {
+            props.setIsAdmin(false)
+        }
+
+        // Successful log in and move to next page
         alert("You have successful logged in!");
         props.changePageView("annotation")
     }

@@ -7,16 +7,18 @@ import Alert from "@cloudscape-design/components/alert";
 import Button from "@cloudscape-design/components/button";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import {formatAnnotationTaskApiResponse, formatGetUsersApiResponse} from "../Utils/DataHandling";
-import {AnnotationTasks} from "../Utils/Types";
+import {AnnotationTaskProps, AnnotationTasks} from "../Utils/Types";
 import {API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {AddRecord} from "../Components/AddRecord";
 import {UpdateRecord} from "../Components/UpdateRecord";
+import {DeleteRecord} from "../Components/DeleteRecord";
 import {ButtonDropdownProps} from "@cloudscape-design/components";
 
 
-export default function AnnotationTaskPage(){
+export default function AnnotationTaskPage(props: AnnotationTaskProps){
     const [addRecordComponentVisible, setAddRecordComponentVisible] = React.useState<boolean>(false);
     const [updateRecordComponentVisible, setUpdateRecordComponentVisible] = React.useState<boolean>(false);
+    const [deleteRecordComponentVisible, setDeleteRecordComponentVisible] = React.useState<boolean>(false);
     const [annotationTasks, setAnnotationTasks] = React.useState<AnnotationTasks[]>();
     const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
     const [error, setError] = React.useState<undefined | string>(undefined);
@@ -129,6 +131,14 @@ export default function AnnotationTaskPage(){
                         <Button iconName="edit" onClick={() => setUpdateRecordComponentVisible(true)}>
                             Update annotation task
                         </Button>
+                        <Button
+                            iconName="remove"
+                            onClick={() => setDeleteRecordComponentVisible(true)}
+                            disabled={!props.isAdmin}
+                            disabledReason={"You need to be admin(a manager) to have access."}
+                        >
+                            Delete annotation task
+                        </Button>
                     </SpaceBetween>
                 }
                 />
@@ -160,6 +170,12 @@ export default function AnnotationTaskPage(){
                     allUsers={allUsers}
                 />
             }
+
+            <DeleteRecord
+                visible={deleteRecordComponentVisible}
+                setVisible={setDeleteRecordComponentVisible}
+            />
+
         </Container>
     )
 }
