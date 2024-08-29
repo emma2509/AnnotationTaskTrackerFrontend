@@ -11,7 +11,6 @@ import {AnnotationTaskProps, AnnotationTasks} from "../Utils/Types";
 import {API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {AddRecord} from "../Components/AddRecord";
 import {UpdateRecord} from "../Components/UpdateRecord";
-import {DeleteRecord} from "../Components/DeleteRecord";
 import {ButtonDropdownProps} from "@cloudscape-design/components";
 
 
@@ -71,8 +70,9 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps){
         getUsers().then()
     }, []);
 
-    // everytime addRecordComponentVisible or updateRecordComponentVisible is updated, it is checked to see if they are both false(both hidden)
-    // as this means the users is now viewing the main annotation page and was just adding or updating a component
+    // everytime add,update or delete component visible is updated, it is checked to see if they are all false(hidden)
+    // as this means the users is now viewing the main annotation page and was just using one of these components
+    // and therefore the annotations need to be updated
     React.useEffect(() => {
         if (!addRecordComponentVisible && !updateRecordComponentVisible && !deleteRecordComponentVisible){
             getAnnotationTasks().then()
@@ -163,20 +163,22 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps){
             }
 
             {(annotationTasks && allUsers) &&
-                <UpdateRecord
-                    visible={updateRecordComponentVisible}
-                    setVisible={setUpdateRecordComponentVisible}
-                    annotationRecords={annotationTasks}
-                    allUsers={allUsers}
-                />
-            }
-
-            {annotationTasks &&
-                <DeleteRecord
-                    visible={deleteRecordComponentVisible}
-                    setVisible={setDeleteRecordComponentVisible}
-                    allAnnotationRecords={annotationTasks}
-                />
+                <>
+                    <UpdateRecord
+                        actionType={"Update"}
+                        visible={updateRecordComponentVisible}
+                        setVisible={setUpdateRecordComponentVisible}
+                        annotationRecords={annotationTasks}
+                        allUsers={allUsers}
+                    />
+                    <UpdateRecord
+                        actionType={"Delete"}
+                        visible={deleteRecordComponentVisible}
+                        setVisible={setDeleteRecordComponentVisible}
+                        annotationRecords={annotationTasks}
+                        allUsers={allUsers}
+                    />
+                </>
             }
 
         </Container>

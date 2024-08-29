@@ -1,4 +1,4 @@
-import {AnnotationTasks, UpdateRecordProps} from "../Utils/Types";
+import {AnnotationTasks, UpdateRecordCompHeaderProps, UpdateRecordProps} from "../Utils/Types";
 import {isAnnotationRecordValid, transformTagInput} from "../Utils/DataHandling";
 import Modal from "@cloudscape-design/components/modal";
 import * as React from "react";
@@ -9,6 +9,7 @@ import {API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {callApi} from "../Utils/CallApi";
 
 
+// Component for updating annotation task - this includes updating the record fields or deleting the record.
 export function UpdateRecord (props: UpdateRecordProps) {
     const [annotationRecord, setAnnotationRecord] = React.useState<AnnotationTasks | undefined>(undefined);
     const [userName, setUserName] = React.useState<string>("");
@@ -24,7 +25,12 @@ export function UpdateRecord (props: UpdateRecordProps) {
     const [formVisible, setFromVisible] = React.useState<boolean>(false);
     const [searchVisible, setSearchVisible] = React.useState<boolean>(false);
 
-    async function updateButton(){
+    const header: UpdateRecordCompHeaderProps = {
+        "Delete": "Are you sure you want to delete this record?",
+        "Update": "Updating annotation record"
+    }
+
+    async function updateButton() {
         // checks inputs
         if (!isAnnotationRecordValid(userName, annotationStatus, originalData, annotatedData, tags)){
             setError("Incorrect inputs")
@@ -49,7 +55,27 @@ export function UpdateRecord (props: UpdateRecordProps) {
         }
         setApiStatus(API_STATUS.SUCCESS)
         alert("Task successfully updated!")
+
+        // done with feature, reset and hide
         setFromVisible(false)
+        setSearchVisible(false)
+        setError("")
+    }
+
+    async function deleteRecord(){
+        setApiStatus(API_STATUS.WAITING)
+        const apiCall = await callApi({"annotation-id": annotationId}, API_ROUTES.DELETE_ANNOTATION, API_METHODS.POST)
+        if (apiCall.statusCode !== 200){
+            setError(`Issue with API call, failed with message: ${apiCall.body}`)
+            setApiStatus(API_STATUS.ERROR)
+            return
+        }
+        setApiStatus(API_STATUS.SUCCESS)
+        alert("Task successfully deleted")
+
+        // done with feature, reset and hide
+        setFromVisible(false)
+        setSearchVisible(false)
         setError("")
     }
 
@@ -77,10 +103,15 @@ export function UpdateRecord (props: UpdateRecordProps) {
         }
     },[props.visible])
 
-    // follow the components and when both hidden then hide this whole feature
+    // follow the components is visible
     React.useEffect(() => {
+        // if both hidden then done with this whole component
         if (!searchVisible && !formVisible) {
             props.setVisible(false)
+        }
+        // if one or both are true then still using this component
+        if (formVisible || searchVisible){
+            props.setVisible(true)
         }
     }, [searchVisible, formVisible])
 
@@ -91,17 +122,20 @@ export function UpdateRecord (props: UpdateRecordProps) {
                 setVisible={setSearchVisible}
                 allAnnotationRecords={props.annotationRecords}
                 setAnnotationRecordFound={setAnnotationRecord}
-                actionType={"Update"}
+                actionType={props.actionType}
             />
 
             <Modal
                 onDismiss={() => setFromVisible(false)}
                 visible={formVisible}
-                header="Updating annotation record"
+                header={header[props.actionType]}
             >
                 <AnnotationRecordForm
-                    actionType={"Update"}
-                    buttonClick={updateButton}
+                    actionType={props.actionType}
+                    buttonClick={props.actionType === "Update"
+                        ? updateButton
+                        : deleteRecord
+                }
                     userName={userName}
                     setUserName={setUserName}
                     annotationStatus={annotationStatus}
