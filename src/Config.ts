@@ -26,5 +26,6 @@ export enum API_ROUTES {
     GET_USERS = "get_users",
     GET_ANNOTATIONS = "get_annotations",
     ADD_ANNOTATION = "add_annotation",
-    UPDATE_ANNOTATION = "update_annotation"
+    UPDATE_ANNOTATION = "update_annotation",
+    DELETE_ANNOTATION = "delete_annotation"
 }

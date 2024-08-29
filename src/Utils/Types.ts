@@ -61,6 +61,7 @@ export interface AnnotationRecordFormProps {
 }
 
 export interface DeleteRecordProps {
+    allAnnotationRecords: AnnotationTasks[]
     visible: boolean
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }

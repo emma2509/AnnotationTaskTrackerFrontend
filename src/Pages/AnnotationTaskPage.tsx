@@ -74,10 +74,10 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps){
     // everytime addRecordComponentVisible or updateRecordComponentVisible is updated, it is checked to see if they are both false(both hidden)
     // as this means the users is now viewing the main annotation page and was just adding or updating a component
     React.useEffect(() => {
-        if (!addRecordComponentVisible && !updateRecordComponentVisible){
+        if (!addRecordComponentVisible && !updateRecordComponentVisible && !deleteRecordComponentVisible){
             getAnnotationTasks().then()
         }
-    }, [addRecordComponentVisible, updateRecordComponentVisible])
+    }, [addRecordComponentVisible, updateRecordComponentVisible, deleteRecordComponentVisible])
 
 
     return (
@@ -171,10 +171,13 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps){
                 />
             }
 
-            <DeleteRecord
-                visible={deleteRecordComponentVisible}
-                setVisible={setDeleteRecordComponentVisible}
-            />
+            {annotationTasks &&
+                <DeleteRecord
+                    visible={deleteRecordComponentVisible}
+                    setVisible={setDeleteRecordComponentVisible}
+                    allAnnotationRecords={annotationTasks}
+                />
+            }
 
         </Container>
     )

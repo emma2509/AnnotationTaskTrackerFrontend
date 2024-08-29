@@ -23,6 +23,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                     <ButtonDropdown
                         items={props.allUsers}
                         onItemClick={(item) => props.setUserName(item.detail.id)}
+                        disabled={props.actionType === "Delete"}
                     >
                         {props.userName}
                     </ButtonDropdown>
@@ -32,6 +33,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                     <ButtonDropdown
                         items={ANNOTATION_STATUS_OPTIONS}
                         onItemClick={(item) => props.setAnnotationStatus(item.detail.id)}
+                        disabled={props.actionType === "Delete"}
                     >
                         {props.annotationStatus}
                     </ButtonDropdown>
@@ -41,6 +43,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                     <Textarea
                         onChange={({ detail }) => props.setOriginalData(detail.value)}
                         value={props.originalData}
+                        disabled={props.actionType === "Delete"}
                     />
                 </FormField>
 
@@ -48,12 +51,16 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                     <Textarea
                         onChange={({ detail }) => props.setAnnotatedData(detail.value)}
                         value={props.annotatedData}
-                        disabled={props.annotationStatus !== "Completed"}
+                        disabled={props.annotationStatus !== "Completed" || props.actionType === "Delete"}
                     />
                 </FormField>
 
                 <FormField label="Tags" description="OPTIONAL. This should be in the form of a list (example: tag1, tag2), separate the tags with commas">
-                    <Input onChange={({ detail }) => props.setTags(detail.value)} value={props.tags}/>
+                    <Input
+                        onChange={({ detail }) => props.setTags(detail.value)}
+                        value={props.tags}
+                        disabled={props.actionType === "Delete"}
+                    />
                 </FormField>
 
             </SpaceBetween>

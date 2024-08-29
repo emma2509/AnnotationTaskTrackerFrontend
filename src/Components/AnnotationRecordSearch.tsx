@@ -38,13 +38,13 @@ export function AnnotationRecordSearch(props: AnnotationRecordSearchProps){
             header={`${props.actionType} annotation record`}
         >
             <SpaceBetween size={'xs'}>
-                Enter the id of the annotation record you want to update:
+                <p>Enter the id of the annotation record you want to {props.actionType}:</p>
                 <Input
                     onChange={({ detail }) => setAnnotationId(detail.value)}
                     value={annotationId}
                 />
                 <Button onClick={() => findRecordButtonClick()}>
-                    Find annotation record to {props.actionType}
+                    {props.actionType}
                 </Button>
 
                 {error &&
