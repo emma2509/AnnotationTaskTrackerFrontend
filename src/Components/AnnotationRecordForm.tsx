@@ -59,7 +59,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                         />
                     </FormField>
 
-                    <FormField label="Annotated data">
+                    <FormField label="Annotated data" description="Only required if annotation is completed.">
                         <Textarea
                             onChange={({ detail }) => { props.setAnnotatedData(detail.value); }}
                             value={props.annotatedData}
