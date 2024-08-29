@@ -3,7 +3,6 @@ import * as React from 'react';
 import Container from '@cloudscape-design/components/container';
 import Header from '@cloudscape-design/components/header';
 import Table from '@cloudscape-design/components/table';
-import Alert from '@cloudscape-design/components/alert';
 import Button from '@cloudscape-design/components/button';
 import SpaceBetween from '@cloudscape-design/components/space-between';
 import { formatAnnotationTaskApiResponse, formatGetUsersApiResponse } from '../Utils/DataHandling';
@@ -13,6 +12,7 @@ import { AddRecord } from '../Components/AddRecord';
 import { UpdateRecord } from '../Components/UpdateRecord';
 import { type ButtonDropdownProps } from '@cloudscape-design/components';
 import { ErrorMessage } from '../Components/ErrorMessage';
+import { WaitMessage } from '../Components/WaitMessage';
 
 export default function AnnotationTaskPage (props: AnnotationTaskProps) {
     const [addRecordComponentVisible, setAddRecordComponentVisible] = React.useState<boolean>(false);
@@ -143,8 +143,9 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
                 />
             }
 
-            {apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
-
+            <WaitMessage
+                apiStatus={apiStatus}
+            />
             <ErrorMessage
                 errorMessage={error}
             />

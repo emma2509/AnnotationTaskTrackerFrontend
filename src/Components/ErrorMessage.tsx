@@ -1,9 +1,6 @@
-import Alert from "@cloudscape-design/components/alert";
-import * as React from "react";
-
-interface ErrorMessageProps {
-    errorMessage: undefined | string
-}
+import Alert from '@cloudscape-design/components/alert';
+import * as React from 'react';
+import { ErrorMessageProps } from '../Utils/Types';
 
 export function ErrorMessage(props: ErrorMessageProps) {
     return(

@@ -7,11 +7,11 @@ import FormField from '@cloudscape-design/components/form-field';
 import Input from '@cloudscape-design/components/input';
 import * as React from 'react';
 import Toggle from '@cloudscape-design/components/toggle';
-import Alert from '@cloudscape-design/components/alert';
 import { callApi } from '../Utils/CallApi';
 import { type RegisterProps } from '../Utils/Types';
 import { API_METHODS, API_ROUTES, API_STATUS } from '../Config';
 import { ErrorMessage } from '../Components/ErrorMessage';
+import { WaitMessage } from '../Components/WaitMessage';
 
 export default function RegisterPage (props: RegisterProps) {
     // Set initial states
@@ -99,14 +99,9 @@ export default function RegisterPage (props: RegisterProps) {
             <ErrorMessage
                 errorMessage={errorMessage}
             />
-            {apiStatus === API_STATUS.WAITING &&
-                <Alert
-                    statusIconAriaLabel="Info"
-                    header="Please wait"
-                >
-                    It can take a minute if this is your first time using the site
-                </Alert>
-            }
+            <WaitMessage
+                apiStatus={apiStatus}
+            />
         </Container>
     );
 }

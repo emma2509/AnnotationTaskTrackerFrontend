@@ -6,12 +6,12 @@ import Form from '@cloudscape-design/components/form';
 import SpaceBetween from '@cloudscape-design/components/space-between';
 import FormField from '@cloudscape-design/components/form-field';
 import Input from '@cloudscape-design/components/input';
-import Alert from '@cloudscape-design/components/alert';
 import Link from '@cloudscape-design/components/link';
 import { callApi } from '../Utils/CallApi';
 import { type LogInProps } from '../Utils/Types';
 import { API_METHODS, API_ROUTES, API_STATUS } from '../Config';
 import { ErrorMessage } from '../Components/ErrorMessage';
+import { WaitMessage } from '../Components/WaitMessage';
 
 export default function LogInPage (props: LogInProps) {
     const [userName, setUserName] = React.useState<string>('');
@@ -92,11 +92,9 @@ export default function LogInPage (props: LogInProps) {
             <ErrorMessage
                 errorMessage={error}
             />
-            {apiStatus === API_STATUS.WAITING &&
-                <Alert>
-                    Waiting for back end response - this sometimes can take a minute
-                </Alert>
-            }
+            <WaitMessage
+                apiStatus={apiStatus}
+            />
             <h4>Don't have an account? Click <Link onFollow={() => { props.changePageView('register'); }}>here</Link> to register</h4>
         </Container>
     );

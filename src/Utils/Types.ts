@@ -73,3 +73,11 @@ export interface AnnotationRecordSearchProps {
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
     actionType: ACTION_TYPES
 }
+
+export interface ErrorMessageProps {
+    errorMessage: undefined | string
+}
+
+export interface WaitMessageProps {
+    apiStatus: API_STATUS
+}
