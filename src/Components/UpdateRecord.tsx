@@ -30,7 +30,7 @@ export function UpdateRecord (props: UpdateRecordProps) {
         setError("")
     }
 
-    async function updateButton() {
+    async function updateRecord() {
         // checks inputs
         if (!isAnnotationRecordValid(userName, annotationStatus, originalData, annotatedData, tags)){
             setError("Incorrect inputs")
@@ -122,7 +122,7 @@ export function UpdateRecord (props: UpdateRecordProps) {
             <AnnotationRecordForm
                 actionType={props.actionType}
                 buttonClick={props.actionType === ACTION_TYPES.UPDATE
-                    ? updateButton
+                    ? updateRecord
                     : deleteRecord
             }
                 userName={userName}

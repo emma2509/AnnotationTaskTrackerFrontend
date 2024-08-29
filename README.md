@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Annotation Task Tracker Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). And the site used React.
 
 For the UI components, this package uses [AWS Cloudscape](https://cloudscape.design/).
 
