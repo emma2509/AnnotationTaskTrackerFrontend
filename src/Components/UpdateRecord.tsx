@@ -50,7 +50,7 @@ export function UpdateRecord (props: UpdateRecordProps) {
         setApiStatus(API_STATUS.SUCCESS)
         alert("Task successfully updated!")
         setFromVisible(false)
-        props.setVisible(false); // hide whole element
+        setError("")
     }
 
     // watch annotation record and if updated and not null then a new record is being updated so need to change to form view
@@ -70,12 +70,19 @@ export function UpdateRecord (props: UpdateRecordProps) {
         },
         [annotationRecord])
 
-    // watches visible prop and if try then show first element
+    // watches visible prop and if true then show first element
     React.useEffect(() => {
         if (props.visible){
             setSearchVisible(true)
         }
     },[props.visible])
+
+    // follow the components and when both hidden then hide this whole feature
+    React.useEffect(() => {
+        if (!searchVisible && !formVisible) {
+            props.setVisible(false)
+        }
+    }, [searchVisible, formVisible])
 
     return (
         <>

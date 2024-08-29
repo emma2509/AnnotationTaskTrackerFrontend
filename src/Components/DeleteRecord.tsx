@@ -37,7 +37,7 @@ export function DeleteRecord(props: DeleteRecordProps){
         setApiStatus(API_STATUS.SUCCESS)
         alert("Task successfully deleted")
         setFromVisible(false)
-        props.setVisible(false); // hide whole element
+        setError("")
     }
 
 
@@ -58,12 +58,19 @@ export function DeleteRecord(props: DeleteRecordProps){
         },
         [annotationRecord])
 
-    // watches visible prop and if try then show first element
+    // watches visible prop and if true then show first element
     React.useEffect(() => {
         if (props.visible){
             setSearchVisible(true)
         }
     },[props.visible])
+
+    // follow the components and when both hidden then hide this whole feature
+    React.useEffect(() => {
+        if (!searchVisible && !formVisible) {
+            props.setVisible(false)
+        }
+    }, [searchVisible, formVisible])
 
     return(
         <>
