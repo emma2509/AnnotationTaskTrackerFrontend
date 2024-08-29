@@ -23,6 +23,7 @@ export function AddRecord (props: AddRecordProps) {
         setOriginalData('');
         setAnnotatedData('');
         setTags('');
+        setError('');
     }
 
     async function addButtonPressed () {
@@ -52,6 +53,13 @@ export function AddRecord (props: AddRecordProps) {
 
         resetComponent();
     }
+
+    React.useEffect(() => {
+        // when component is hidden it is reset
+        if (!props.visible) {
+            resetComponent()
+        }
+    }, [props.visible])
 
     return (
         <AnnotationRecordForm
