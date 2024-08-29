@@ -1,8 +1,6 @@
-import {AnnotationTasks, UpdateRecordCompHeaderProps, UpdateRecordProps} from "../Utils/Types";
+import {AnnotationTasks, UpdateRecordProps} from "../Utils/Types";
 import {isAnnotationRecordValid, transformTagInput} from "../Utils/DataHandling";
-import Modal from "@cloudscape-design/components/modal";
 import * as React from "react";
-import Alert from "@cloudscape-design/components/alert";
 import {AnnotationRecordForm} from "../Components/AnnotationRecordForm";
 import {AnnotationRecordSearch} from "../Components/AnnotationRecordSearch";
 import {API_METHODS, API_ROUTES, API_STATUS} from "../Config";
@@ -24,11 +22,6 @@ export function UpdateRecord (props: UpdateRecordProps) {
     // visible components
     const [formVisible, setFromVisible] = React.useState<boolean>(false);
     const [searchVisible, setSearchVisible] = React.useState<boolean>(false);
-
-    const header: UpdateRecordCompHeaderProps = {
-        "Delete": "Are you sure you want to delete this record?",
-        "Update": "Updating annotation record"
-    }
 
     function resetComponent(){
         // done with feature, reset and hide
@@ -126,42 +119,29 @@ export function UpdateRecord (props: UpdateRecordProps) {
                 actionType={props.actionType}
             />
 
-            <Modal
-                onDismiss={() => setFromVisible(false)}
+            <AnnotationRecordForm
+                actionType={props.actionType}
+                buttonClick={props.actionType === "Update"
+                    ? updateButton
+                    : deleteRecord
+            }
+                userName={userName}
+                setUserName={setUserName}
+                annotationStatus={annotationStatus}
+                setAnnotationStatus={setAnnotationStatus}
+                originalData={originalData}
+                setOriginalData={setOriginalData}
+                annotatedData={annotatedData}
+                setAnnotatedData={setAnnotatedData}
+                tags={tags}
+                setTags={setTags}
+                allUsers={props.allUsers}
+                error={error}
+                apiStatus={apiStatus}
                 visible={formVisible}
-                header={header[props.actionType]}
-            >
-                <AnnotationRecordForm
-                    actionType={props.actionType}
-                    buttonClick={props.actionType === "Update"
-                        ? updateButton
-                        : deleteRecord
-                }
-                    userName={userName}
-                    setUserName={setUserName}
-                    annotationStatus={annotationStatus}
-                    setAnnotationStatus={setAnnotationStatus}
-                    originalData={originalData}
-                    setOriginalData={setOriginalData}
-                    annotatedData={annotatedData}
-                    setAnnotatedData={setAnnotatedData}
-                    tags={tags}
-                    setTags={setTags}
-                    allUsers={props.allUsers}
-                />
+                setVisible={setFromVisible}
+            />
 
-                {apiStatus === API_STATUS.WAITING &&
-                    <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
-
-                {error &&
-                    <Alert
-                        statusIconAriaLabel="Error"
-                        type="error"
-                    >
-                        Error: {error}
-                    </Alert>}
-
-            </Modal>
         </>
     )
 }

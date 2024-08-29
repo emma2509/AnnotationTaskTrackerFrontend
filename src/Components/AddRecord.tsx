@@ -1,9 +1,7 @@
 import * as React from "react";
-import Modal from "@cloudscape-design/components/modal";
 import {AddRecordProps} from "../Utils/Types";
 import {ANNOTATION_STATUS_OPTIONS, API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {isAnnotationRecordValid, transformTagInput} from "../Utils/DataHandling";
-import Alert from "@cloudscape-design/components/alert";
 import {callApi} from "../Utils/CallApi";
 import {AnnotationRecordForm} from "../Components/AnnotationRecordForm";
 
@@ -57,38 +55,24 @@ export function AddRecord(props: AddRecordProps){
     }
 
     return (
-        <Modal
-            onDismiss={() => props.setVisible(false)}
+        <AnnotationRecordForm
+            actionType={"Add"}
+            buttonClick={addButtonPressed}
+            userName={userName}
+            setUserName={setUserName}
+            annotationStatus={annotationStatus}
+            setAnnotationStatus={setAnnotationStatus}
+            originalData={originalData}
+            setOriginalData={setOriginalData}
+            annotatedData={annotatedData}
+            setAnnotatedData={setAnnotatedData}
+            tags={tags}
+            setTags={setTags}
+            allUsers={props.allUsers}
+            error={error}
+            apiStatus={apiStatus}
             visible={props.visible}
-            header="Enter the annotation task details"
-        >
-            <AnnotationRecordForm
-                actionType={"Add"}
-                buttonClick={addButtonPressed}
-                userName={userName}
-                setUserName={setUserName}
-                annotationStatus={annotationStatus}
-                setAnnotationStatus={setAnnotationStatus}
-                originalData={originalData}
-                setOriginalData={setOriginalData}
-                annotatedData={annotatedData}
-                setAnnotatedData={setAnnotatedData}
-                tags={tags}
-                setTags={setTags}
-                allUsers={props.allUsers}
-
-            />
-
-            {apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
-
-            {error && <Alert
-                statusIconAriaLabel="Error"
-                type="error"
-            >
-                Error: {error}
-            </Alert>
-            }
-
-        </Modal>
+            setVisible={props.setVisible}
+        />
     );
 }
