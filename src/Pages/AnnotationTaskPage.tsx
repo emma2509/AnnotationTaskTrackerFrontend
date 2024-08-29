@@ -12,6 +12,7 @@ import { ACTION_TYPES, API_METHODS, API_ROUTES, API_STATUS } from '../Config';
 import { AddRecord } from '../Components/AddRecord';
 import { UpdateRecord } from '../Components/UpdateRecord';
 import { type ButtonDropdownProps } from '@cloudscape-design/components';
+import { ErrorMessage } from '../Components/ErrorMessage';
 
 export default function AnnotationTaskPage (props: AnnotationTaskProps) {
     const [addRecordComponentVisible, setAddRecordComponentVisible] = React.useState<boolean>(false);
@@ -144,13 +145,9 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
 
             {apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
 
-            {error && <Alert
-                statusIconAriaLabel="Error"
-                type="error"
-            >
-                Error: {error}
-            </Alert>
-            }
+            <ErrorMessage
+                errorMessage={error}
+            />
 
             {(allUsers != null) &&
                 <AddRecord

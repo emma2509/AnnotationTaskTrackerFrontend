@@ -10,6 +10,7 @@ import Input from '@cloudscape-design/components/input';
 import * as React from 'react';
 import { type AnnotationRecordFormProps } from '../Utils/Types';
 import Alert from '@cloudscape-design/components/alert';
+import { ErrorMessage } from '../Components/ErrorMessage';
 
 // General component to show annotation record fields for when adding, updating and deleting records
 export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
@@ -79,14 +80,9 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
 
             {props.apiStatus === API_STATUS.WAITING && <Alert>Waiting for API response. This sometimes can take a while if this is the first API call</Alert>}
 
-            {props.error &&
-                <Alert
-                    statusIconAriaLabel="Error"
-                    type="error"
-                >
-                    Error: {props.error}
-                </Alert>
-            }
+            <ErrorMessage
+                errorMessage={props.error}
+            />
 
         </Modal>
 

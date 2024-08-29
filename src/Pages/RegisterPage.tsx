@@ -11,6 +11,7 @@ import Alert from '@cloudscape-design/components/alert';
 import { callApi } from '../Utils/CallApi';
 import { type RegisterProps } from '../Utils/Types';
 import { API_METHODS, API_ROUTES, API_STATUS } from '../Config';
+import { ErrorMessage } from '../Components/ErrorMessage';
 
 export default function RegisterPage (props: RegisterProps) {
     // Set initial states
@@ -95,15 +96,9 @@ export default function RegisterPage (props: RegisterProps) {
                     </FormField>
                 </SpaceBetween>
             </Form>
-            {errorMessage &&
-                <Alert
-                    statusIconAriaLabel="Error"
-                    type="error"
-                    header="Error"
-                >
-                    {errorMessage}
-                </Alert>
-            }
+            <ErrorMessage
+                errorMessage={errorMessage}
+            />
             {apiStatus === API_STATUS.WAITING &&
                 <Alert
                     statusIconAriaLabel="Info"

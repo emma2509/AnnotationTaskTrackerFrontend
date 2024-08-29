@@ -6,6 +6,7 @@ import * as React from 'react';
 import { findRecord, transformDatabaseTag } from '../Utils/DataHandling';
 import Alert from '@cloudscape-design/components/alert';
 import Modal from '@cloudscape-design/components/modal';
+import { ErrorMessage } from '../Components/ErrorMessage';
 
 export function AnnotationRecordSearch (props: AnnotationRecordSearchProps) {
     const [error, setError] = React.useState<string>('');
@@ -45,14 +46,9 @@ export function AnnotationRecordSearch (props: AnnotationRecordSearchProps) {
                     {props.actionType}
                 </Button>
 
-                {error &&
-                    <Alert
-                        statusIconAriaLabel="Error"
-                        type="error"
-                    >
-                        Error: {error}
-                    </Alert>
-                }
+                <ErrorMessage
+                    errorMessage={error}
+                />
 
             </SpaceBetween>
         </Modal>

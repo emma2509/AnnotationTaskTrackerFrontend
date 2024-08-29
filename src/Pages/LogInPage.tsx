@@ -11,6 +11,7 @@ import Link from '@cloudscape-design/components/link';
 import { callApi } from '../Utils/CallApi';
 import { type LogInProps } from '../Utils/Types';
 import { API_METHODS, API_ROUTES, API_STATUS } from '../Config';
+import { ErrorMessage } from '../Components/ErrorMessage';
 
 export default function LogInPage (props: LogInProps) {
     const [userName, setUserName] = React.useState<string>('');
@@ -88,15 +89,9 @@ export default function LogInPage (props: LogInProps) {
                     </FormField>
                 </SpaceBetween>
             </Form>
-            {error &&
-                <Alert
-                    statusIconAriaLabel="Error"
-                    type="error"
-                    header="Error"
-                >
-                    {error}
-                </Alert>
-            }
+            <ErrorMessage
+                errorMessage={error}
+            />
             {apiStatus === API_STATUS.WAITING &&
                 <Alert>
                     Waiting for back end response - this sometimes can take a minute
