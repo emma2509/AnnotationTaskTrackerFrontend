@@ -20,8 +20,9 @@ export function UpdateRecord (props: UpdateRecordProps) {
     const [error, setError] = React.useState<string>("");
     const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
 
-    // visible values - the passed in visible prop is used for the initial input, the below is used for the second popup the user sees
+    // visible components
     const [formVisible, setFromVisible] = React.useState<boolean>(false);
+    const [searchVisible, setSearchVisible] = React.useState<boolean>(false);
 
     async function updateButton(){
         // checks inputs
@@ -49,6 +50,7 @@ export function UpdateRecord (props: UpdateRecordProps) {
         setApiStatus(API_STATUS.SUCCESS)
         alert("Task successfully updated!")
         setFromVisible(false)
+        props.setVisible(false); // hide whole element
     }
 
     // watch annotation record and if updated and not null then a new record is being updated so need to change to form view
@@ -68,12 +70,18 @@ export function UpdateRecord (props: UpdateRecordProps) {
         },
         [annotationRecord])
 
+    // watches visible prop and if try then show first element
+    React.useEffect(() => {
+        if (props.visible){
+            setSearchVisible(true)
+        }
+    },[props.visible])
 
     return (
         <>
             <AnnotationRecordSearch
-                visible={props.visible}
-                setVisible={props.setVisible}
+                visible={searchVisible}
+                setVisible={setSearchVisible}
                 allAnnotationRecords={props.annotationRecords}
                 setAnnotationRecordFound={setAnnotationRecord}
                 actionType={"Update"}

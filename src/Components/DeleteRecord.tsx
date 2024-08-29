@@ -21,8 +21,9 @@ export function DeleteRecord(props: DeleteRecordProps){
     const [error, setError] = React.useState<string>("");
     const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
 
-    // visible values - the passed in visible prop is used for the initial input, the below is used for the second popup the user sees
+    // visible components
     const [formVisible, setFromVisible] = React.useState<boolean>(false);
+    const [searchVisible, setSearchVisible] = React.useState<boolean>(false);
 
 
     async function deleteRecord(){
@@ -36,6 +37,7 @@ export function DeleteRecord(props: DeleteRecordProps){
         setApiStatus(API_STATUS.SUCCESS)
         alert("Task successfully deleted")
         setFromVisible(false)
+        props.setVisible(false); // hide whole element
     }
 
 
@@ -56,12 +58,18 @@ export function DeleteRecord(props: DeleteRecordProps){
         },
         [annotationRecord])
 
+    // watches visible prop and if try then show first element
+    React.useEffect(() => {
+        if (props.visible){
+            setSearchVisible(true)
+        }
+    },[props.visible])
 
     return(
         <>
             <AnnotationRecordSearch
-                visible={props.visible}
-                setVisible={props.setVisible}
+                visible={searchVisible}
+                setVisible={setSearchVisible}
                 allAnnotationRecords={props.allAnnotationRecords}
                 setAnnotationRecordFound={setAnnotationRecord}
                 actionType={"Delete"}
