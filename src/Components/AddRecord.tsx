@@ -18,6 +18,16 @@ export function AddRecord(props: AddRecordProps){
     const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
     const [error, setError] = React.useState<undefined | string>(undefined);
 
+    function resetComponent(){
+        props.setVisible(false)
+
+        // reset string inputs to be empty
+        setUserName(props.allUsers[0].id)
+        setOriginalData("")
+        setAnnotatedData("")
+        setTags("")
+    }
+
     async function addButtonPressed() {
         // checks inputs
         if (!isAnnotationRecordValid(userName, annotationStatus, originalData, annotatedData, tags)){
@@ -42,13 +52,8 @@ export function AddRecord(props: AddRecordProps){
         }
         setApiStatus(API_STATUS.SUCCESS)
         alert("Task successfully added!")
-        props.setVisible(false)
 
-        // reset string inputs to be empty
-        setUserName(props.allUsers[0].id)
-        setOriginalData("")
-        setAnnotatedData("")
-        setTags("")
+        resetComponent()
     }
 
     return (

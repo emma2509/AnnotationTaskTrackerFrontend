@@ -30,6 +30,13 @@ export function UpdateRecord (props: UpdateRecordProps) {
         "Update": "Updating annotation record"
     }
 
+    function resetComponent(){
+        // done with feature, reset and hide
+        setFromVisible(false)
+        setSearchVisible(false)
+        setError("")
+    }
+
     async function updateButton() {
         // checks inputs
         if (!isAnnotationRecordValid(userName, annotationStatus, originalData, annotatedData, tags)){
@@ -56,10 +63,7 @@ export function UpdateRecord (props: UpdateRecordProps) {
         setApiStatus(API_STATUS.SUCCESS)
         alert("Task successfully updated!")
 
-        // done with feature, reset and hide
-        setFromVisible(false)
-        setSearchVisible(false)
-        setError("")
+        resetComponent()
     }
 
     async function deleteRecord(){
@@ -73,10 +77,7 @@ export function UpdateRecord (props: UpdateRecordProps) {
         setApiStatus(API_STATUS.SUCCESS)
         alert("Task successfully deleted")
 
-        // done with feature, reset and hide
-        setFromVisible(false)
-        setSearchVisible(false)
-        setError("")
+        resetComponent()
     }
 
     // watch annotation record and if updated and not null then a new record is being updated so need to change to form view
