@@ -3,7 +3,7 @@ import {isAnnotationRecordValid, transformTagInput} from "../Utils/DataHandling"
 import * as React from "react";
 import {AnnotationRecordForm} from "../Components/AnnotationRecordForm";
 import {AnnotationRecordSearch} from "../Components/AnnotationRecordSearch";
-import {API_METHODS, API_ROUTES, API_STATUS} from "../Config";
+import {ACTION_TYPES, API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {callApi} from "../Utils/CallApi";
 
 
@@ -121,7 +121,7 @@ export function UpdateRecord (props: UpdateRecordProps) {
 
             <AnnotationRecordForm
                 actionType={props.actionType}
-                buttonClick={props.actionType === "Update"
+                buttonClick={props.actionType === ACTION_TYPES.UPDATE
                     ? updateButton
                     : deleteRecord
             }

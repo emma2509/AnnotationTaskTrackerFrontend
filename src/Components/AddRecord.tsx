@@ -1,6 +1,6 @@
 import * as React from "react";
 import {AddRecordProps} from "../Utils/Types";
-import {ANNOTATION_STATUS_OPTIONS, API_METHODS, API_ROUTES, API_STATUS} from "../Config";
+import {ACTION_TYPES, ANNOTATION_STATUS_OPTIONS, API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {isAnnotationRecordValid, transformTagInput} from "../Utils/DataHandling";
 import {callApi} from "../Utils/CallApi";
 import {AnnotationRecordForm} from "../Components/AnnotationRecordForm";
@@ -56,7 +56,7 @@ export function AddRecord(props: AddRecordProps){
 
     return (
         <AnnotationRecordForm
-            actionType={"Add"}
+            actionType={ACTION_TYPES.ADD}
             buttonClick={addButtonPressed}
             userName={userName}
             setUserName={setUserName}

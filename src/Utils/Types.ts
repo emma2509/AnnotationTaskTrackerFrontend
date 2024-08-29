@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ButtonDropdownProps} from "@cloudscape-design/components";
-import {API_STATUS} from "../Config";
+import {ACTION_TYPES, API_STATUS} from "../Config";
 
 // Props interfaces needed to pass in values to components
 
@@ -43,15 +43,11 @@ export interface UpdateRecordProps {
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
     annotationRecords: AnnotationTasks[]
     allUsers: ReadonlyArray<ButtonDropdownProps.Item>
-    actionType: string
-}
-
-export interface AnnotationRecordFormHeaderProps {
-    [key: string]: string
+    actionType: ACTION_TYPES
 }
 
 export interface AnnotationRecordFormProps {
-    actionType: string
+    actionType: ACTION_TYPES
     buttonClick: Function
     userName: string,
     setUserName: React.Dispatch<React.SetStateAction<string>>,
@@ -75,5 +71,5 @@ export interface AnnotationRecordSearchProps {
     setAnnotationRecordFound: React.Dispatch<React.SetStateAction<AnnotationTasks | undefined>>
     visible: boolean
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
-    actionType: string
+    actionType: ACTION_TYPES
 }

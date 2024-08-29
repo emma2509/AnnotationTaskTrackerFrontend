@@ -29,3 +29,10 @@ export enum API_ROUTES {
     UPDATE_ANNOTATION = "update_annotation",
     DELETE_ANNOTATION = "delete_annotation"
 }
+
+
+export enum ACTION_TYPES {
+    ADD = "Add",
+    UPDATE = "Update",
+    DELETE = "Delete"
+}

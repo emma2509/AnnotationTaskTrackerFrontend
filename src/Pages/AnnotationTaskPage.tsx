@@ -8,7 +8,7 @@ import Button from "@cloudscape-design/components/button";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import {formatAnnotationTaskApiResponse, formatGetUsersApiResponse} from "../Utils/DataHandling";
 import {AnnotationTaskProps, AnnotationTasks} from "../Utils/Types";
-import {API_METHODS, API_ROUTES, API_STATUS} from "../Config";
+import {ACTION_TYPES, API_METHODS, API_ROUTES, API_STATUS} from "../Config";
 import {AddRecord} from "../Components/AddRecord";
 import {UpdateRecord} from "../Components/UpdateRecord";
 import {ButtonDropdownProps} from "@cloudscape-design/components";
@@ -165,14 +165,14 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps){
             {(annotationTasks && allUsers) &&
                 <>
                     <UpdateRecord
-                        actionType={"Update"}
+                        actionType={ACTION_TYPES.UPDATE}
                         visible={updateRecordComponentVisible}
                         setVisible={setUpdateRecordComponentVisible}
                         annotationRecords={annotationTasks}
                         allUsers={allUsers}
                     />
                     <UpdateRecord
-                        actionType={"Delete"}
+                        actionType={ACTION_TYPES.DELETE}
                         visible={deleteRecordComponentVisible}
                         setVisible={setDeleteRecordComponentVisible}
                         annotationRecords={annotationTasks}

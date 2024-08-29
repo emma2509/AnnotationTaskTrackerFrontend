@@ -4,20 +4,20 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import FormField from "@cloudscape-design/components/form-field";
 import ButtonDropdown from "@cloudscape-design/components/button-dropdown";
 import Modal from "@cloudscape-design/components/modal";
-import {ANNOTATION_STATUS_OPTIONS, API_STATUS} from "../Config";
+import {ACTION_TYPES, ANNOTATION_STATUS_OPTIONS, API_STATUS} from "../Config";
 import Textarea from "@cloudscape-design/components/textarea";
 import Input from "@cloudscape-design/components/input";
 import * as React from "react";
-import {AnnotationRecordFormProps, AnnotationRecordFormHeaderProps} from "../Utils/Types";
+import {AnnotationRecordFormProps} from "../Utils/Types";
 import Alert from "@cloudscape-design/components/alert";
 
 
 // General component to show annotation record fields for when adding, updating and deleting records
 export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
-    const header: AnnotationRecordFormHeaderProps = {
-        "Delete": "Are you sure you want to delete this record?",
-        "Update": "Updating annotation record",
-        "Add": "Enter the annotation task details"
+    const header: { [key in ACTION_TYPES]: string } = {
+        [ACTION_TYPES.DELETE]: "Are you sure you want to delete this record?",
+        [ACTION_TYPES.UPDATE]: "Updating annotation record",
+        [ACTION_TYPES.ADD]: "Enter the annotation task details"
     }
     return (
         <Modal
@@ -35,7 +35,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                         <ButtonDropdown
                             items={props.allUsers}
                             onItemClick={(item) => props.setUserName(item.detail.id)}
-                            disabled={props.actionType === "Delete"}
+                            disabled={props.actionType === ACTION_TYPES.DELETE}
                         >
                             {props.userName}
                         </ButtonDropdown>
@@ -45,7 +45,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                         <ButtonDropdown
                             items={ANNOTATION_STATUS_OPTIONS}
                             onItemClick={(item) => props.setAnnotationStatus(item.detail.id)}
-                            disabled={props.actionType === "Delete"}
+                            disabled={props.actionType === ACTION_TYPES.DELETE}
                         >
                             {props.annotationStatus}
                         </ButtonDropdown>
@@ -55,7 +55,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                         <Textarea
                             onChange={({ detail }) => props.setOriginalData(detail.value)}
                             value={props.originalData}
-                            disabled={props.actionType === "Delete"}
+                            disabled={props.actionType === ACTION_TYPES.DELETE}
                         />
                     </FormField>
 
@@ -63,7 +63,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                         <Textarea
                             onChange={({ detail }) => props.setAnnotatedData(detail.value)}
                             value={props.annotatedData}
-                            disabled={props.annotationStatus !== "Completed" || props.actionType === "Delete"}
+                            disabled={props.annotationStatus !== "Completed" || props.actionType === ACTION_TYPES.DELETE}
                         />
                     </FormField>
 
@@ -71,7 +71,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                         <Input
                             onChange={({ detail }) => props.setTags(detail.value)}
                             value={props.tags}
-                            disabled={props.actionType === "Delete"}
+                            disabled={props.actionType === ACTION_TYPES.DELETE}
                         />
                     </FormField>
 
