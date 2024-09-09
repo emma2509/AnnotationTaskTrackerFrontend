@@ -30,11 +30,12 @@ export function UpdateRecord (props: UpdateRecordProps) {
     }
 
     async function updateRecord () {
-        // checks inputs
+        // checks inputs and set error if incorrect input
         if (!isAnnotationRecordValid(userName, annotationStatus, originalData, annotatedData, tags)) {
             setError('Incorrect inputs');
             return;
         }
+        setError('');
 
         // api call - send all current fields
         const newAnnotationRecord = {
