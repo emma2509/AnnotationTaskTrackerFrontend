@@ -13,6 +13,7 @@ import { UpdateRecord } from '../Components/UpdateRecord';
 import { type ButtonDropdownProps } from '@cloudscape-design/components';
 import { ErrorMessage } from '../Components/ErrorMessage';
 import { WaitMessage } from '../Components/WaitMessage';
+import { LogOutButton } from '../Components/LogOutButton';
 
 export default function AnnotationTaskPage (props: AnnotationTaskProps) {
     const [addRecordComponentVisible, setAddRecordComponentVisible] = React.useState<boolean>(false);
@@ -80,7 +81,12 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
     }, [addRecordComponentVisible, updateRecordComponentVisible, deleteRecordComponentVisible]);
 
     return (
-        <Container header={<Header>Annotation Tasks </Header>}>
+        <Container header={
+            <SpaceBetween direction="horizontal" size={'s'}>
+                <Header>Annotation Tasks </Header>
+                <LogOutButton changePageView={props.changePageView} />
+            </SpaceBetween>
+        }>
             {(annotationTasks != null) &&
                 <Table
                     columnDefinitions={[

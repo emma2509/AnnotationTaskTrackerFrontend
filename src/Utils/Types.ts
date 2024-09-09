@@ -16,6 +16,7 @@ export interface LogInProps {
 
 export interface AnnotationTaskProps {
     isAdmin: boolean
+    changePageView: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface AnnotationTasks {
@@ -80,4 +81,8 @@ export interface ErrorMessageProps {
 
 export interface WaitMessageProps {
     apiStatus: API_STATUS
+}
+
+export interface LogOutButtonProps {
+    changePageView: React.Dispatch<React.SetStateAction<string>>
 }

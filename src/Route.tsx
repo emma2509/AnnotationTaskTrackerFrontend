@@ -28,6 +28,7 @@ export default function AppRoutes () {
                     {pageView === 'annotation' &&
                   <AnnotationTaskPage
                       isAdmin={isAdmin}
+                      changePageView={changePageView}
                   />}
                 </ContentLayout>}
             navigationHide ={true}
