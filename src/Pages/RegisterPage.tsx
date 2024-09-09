@@ -12,6 +12,7 @@ import { type RegisterProps } from '../Utils/Types';
 import { API_METHODS, API_ROUTES, API_STATUS } from '../Config';
 import { ErrorMessage } from '../Components/ErrorMessage';
 import { WaitMessage } from '../Components/WaitMessage';
+import Link from "@cloudscape-design/components/link";
 
 export default function RegisterPage (props: RegisterProps) {
     // Set initial states
@@ -102,6 +103,7 @@ export default function RegisterPage (props: RegisterProps) {
             <WaitMessage
                 apiStatus={apiStatus}
             />
+            <h4>Already have an account? Click <Link onFollow={() => { props.changePageView('login'); }}>here</Link> to log in</h4>
         </Container>
     );
 }
