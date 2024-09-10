@@ -26,6 +26,9 @@ export interface AnnotationTasks {
     originalData: string
     annotatedData: string
     tags: string
+    firstName: string
+    lastName: string
+    team: string
 }
 
 export interface ApiResponseFormat {

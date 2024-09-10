@@ -15,7 +15,10 @@ export function formatAnnotationTaskApiResponse (apiResponse: ApiResponseFormat)
                 status: currentRecord[2],
                 originalData: currentRecord[3],
                 annotatedData: currentRecord[4],
-                tags: currentRecord[5]
+                tags: currentRecord[5],
+                firstName: currentRecord[6],
+                lastName: currentRecord[7],
+                team: currentRecord[8]
             };
             formattedRecords.push(formattedCurrentRecord);
 

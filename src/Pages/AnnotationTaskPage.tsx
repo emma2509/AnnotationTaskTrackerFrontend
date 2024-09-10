@@ -98,8 +98,23 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
                         },
                         {
                             id: 'userName',
-                            header: 'Owner',
+                            header: 'Owner Username',
                             cell: item => item.userName
+                        },
+                        {
+                            id: 'firstName',
+                            header: 'Owner First Name',
+                            cell: item => item.firstName
+                        },
+                        {
+                            id: 'lastName',
+                            header: 'Owner Last Name',
+                            cell: item => item.lastName
+                        },
+                        {
+                            id: 'team',
+                            header: 'Owner Team',
+                            cell: item => item.team
                         },
                         {
                             id: 'status',
