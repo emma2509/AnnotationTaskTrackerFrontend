@@ -5,9 +5,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 For the UI components, this package uses [AWS Cloudscape](https://cloudscape.design/).
 
 ## Installation and set up
-* Ensure you have node and npm
-* Run `npm install` - this will install all libraries and packages needed
-* If you want to connect to the locally running API then change the `API_URL` const in the config file
+
+- Ensure you have node and npm
+- Run `npm install` - this will install all libraries and packages needed
+- If you want to connect to the locally running API then change the `API_URL` const in the config file
+
+## Linter
+
+You can apply [prettier](https://prettier.io/) linter by running `npx prettier . --write`
+
+To apply [ESLinter](https://typescript-eslint.io/) run `npx eslint .`
 
 ## Available Scripts
 

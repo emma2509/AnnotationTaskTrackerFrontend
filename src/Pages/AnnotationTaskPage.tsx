@@ -1,34 +1,49 @@
-import { callApi } from '../Utils/CallApi';
-import * as React from 'react';
-import Container from '@cloudscape-design/components/container';
-import Header from '@cloudscape-design/components/header';
-import Table from '@cloudscape-design/components/table';
-import Button from '@cloudscape-design/components/button';
-import SpaceBetween from '@cloudscape-design/components/space-between';
-import { formatAnnotationTaskApiResponse, formatGetUsersApiResponse } from '../Utils/DataHandling';
-import { type AnnotationTaskProps, type AnnotationTasks } from '../Utils/Types';
-import { ACTION_TYPES, API_METHODS, API_ROUTES, API_STATUS } from '../Config';
-import { AddRecord } from '../Components/AddRecord';
-import { UpdateRecord } from '../Components/UpdateRecord';
-import { type ButtonDropdownProps } from '@cloudscape-design/components';
-import { ErrorMessage } from '../Components/ErrorMessage';
-import { WaitMessage } from '../Components/WaitMessage';
-import { LogOutButton } from '../Components/LogOutButton';
+import { callApi } from "../Utils/CallApi";
+import * as React from "react";
+import Container from "@cloudscape-design/components/container";
+import Header from "@cloudscape-design/components/header";
+import Table from "@cloudscape-design/components/table";
+import Button from "@cloudscape-design/components/button";
+import SpaceBetween from "@cloudscape-design/components/space-between";
+import {
+    formatAnnotationTaskApiResponse,
+    formatGetUsersApiResponse,
+} from "../Utils/DataHandling";
+import { type AnnotationTaskProps, type AnnotationTasks } from "../Utils/Types";
+import { ACTION_TYPES, API_METHODS, API_ROUTES, API_STATUS } from "../Config";
+import { AddAnnotationRecord } from "../Components/AddAnnotationRecord";
+import { UpdateAnnotationRecord } from "../Components/UpdateAnnotationRecord";
+import { type ButtonDropdownProps } from "@cloudscape-design/components";
+import { ErrorMessage } from "../Components/ErrorMessage";
+import { WaitMessage } from "../Components/WaitMessage";
+import { LogOutButton } from "../Components/LogOutButton";
 
-export default function AnnotationTaskPage (props: AnnotationTaskProps) {
-    const [addRecordComponentVisible, setAddRecordComponentVisible] = React.useState<boolean>(false);
-    const [updateRecordComponentVisible, setUpdateRecordComponentVisible] = React.useState<boolean>(false);
-    const [deleteRecordComponentVisible, setDeleteRecordComponentVisible] = React.useState<boolean>(false);
-    const [annotationTasks, setAnnotationTasks] = React.useState<AnnotationTasks[]>();
-    const [apiStatus, setApiStatus] = React.useState<API_STATUS>(API_STATUS.NONE);
+export default function AnnotationTaskPage(props: AnnotationTaskProps) {
+    const [addRecordComponentVisible, setAddRecordComponentVisible] =
+        React.useState<boolean>(false);
+    const [updateRecordComponentVisible, setUpdateRecordComponentVisible] =
+        React.useState<boolean>(false);
+    const [deleteRecordComponentVisible, setDeleteRecordComponentVisible] =
+        React.useState<boolean>(false);
+    const [annotationTasks, setAnnotationTasks] =
+        React.useState<AnnotationTasks[]>();
+    const [apiStatus, setApiStatus] = React.useState<API_STATUS>(
+        API_STATUS.NONE,
+    );
     const [error, setError] = React.useState<undefined | string>(undefined);
     // set to undefined until api call has been completed and data has been received
-    const [allUsers, setAllUsers] = React.useState<readonly ButtonDropdownProps.Item[] | undefined>(undefined);
+    const [allUsers, setAllUsers] = React.useState<
+        readonly ButtonDropdownProps.Item[] | undefined
+    >(undefined);
 
-    async function getAnnotationTasks () {
+    async function getAnnotationTasks() {
         // does api call and handles response
         setApiStatus(API_STATUS.WAITING);
-        const apiResponse = await callApi('', API_ROUTES.GET_ANNOTATIONS, API_METHODS.GET);
+        const apiResponse = await callApi(
+            "",
+            API_ROUTES.GET_ANNOTATIONS,
+            API_METHODS.GET,
+        );
         if (apiResponse.statusCode !== 200) {
             setApiStatus(API_STATUS.ERROR);
             setError(apiResponse.body);
@@ -36,8 +51,9 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
         }
         setApiStatus(API_STATUS.SUCCESS);
 
-        const formattedAnnotationTasks = formatAnnotationTaskApiResponse(apiResponse);
-        if (typeof formattedAnnotationTasks === 'string') {
+        const formattedAnnotationTasks =
+            formatAnnotationTaskApiResponse(apiResponse);
+        if (typeof formattedAnnotationTasks === "string") {
             setError(formattedAnnotationTasks);
             return;
         }
@@ -45,10 +61,14 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
     }
 
     // need to get all users for when adding/updating annotation tasks
-    async function getUsers () {
+    async function getUsers() {
         // api call to get users
         setApiStatus(API_STATUS.WAITING);
-        const getUsers = await callApi('', API_ROUTES.GET_USERS, API_METHODS.GET);
+        const getUsers = await callApi(
+            "",
+            API_ROUTES.GET_USERS,
+            API_METHODS.GET,
+        );
         if (getUsers.statusCode !== 200) {
             setApiStatus(API_STATUS.ERROR);
             setError(getUsers.body);
@@ -58,7 +78,7 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
 
         // formats response
         const formattedUsers = formatGetUsersApiResponse(getUsers);
-        if (typeof formattedUsers === 'string') {
+        if (typeof formattedUsers === "string") {
             setError(formattedUsers);
             return;
         }
@@ -75,67 +95,77 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
     // as this means the users is now viewing the main annotation page and was just using one of these components
     // and therefore the annotations need to be updated
     React.useEffect(() => {
-        if (!addRecordComponentVisible && !updateRecordComponentVisible && !deleteRecordComponentVisible) {
+        if (
+            !addRecordComponentVisible &&
+            !updateRecordComponentVisible &&
+            !deleteRecordComponentVisible
+        ) {
             getAnnotationTasks().then();
         }
-    }, [addRecordComponentVisible, updateRecordComponentVisible, deleteRecordComponentVisible]);
+    }, [
+        addRecordComponentVisible,
+        updateRecordComponentVisible,
+        deleteRecordComponentVisible,
+    ]);
 
     return (
-        <Container header={
-            <SpaceBetween direction="horizontal" size={'s'}>
-                <Header>Annotation Tasks </Header>
-                <LogOutButton changePageView={props.changePageView} />
-            </SpaceBetween>
-        }>
-            {(annotationTasks != null) &&
+        <Container
+            header={
+                <SpaceBetween direction="horizontal" size={"s"}>
+                    <Header>Annotation Tasks </Header>
+                    <LogOutButton changePageView={props.changePageView} />
+                </SpaceBetween>
+            }
+        >
+            {annotationTasks != null && (
                 <Table
                     columnDefinitions={[
                         {
-                            id: 'id',
-                            header: 'Annotation ID',
-                            cell: item => item.id,
-                            isRowHeader: true
+                            id: "id",
+                            header: "Annotation ID",
+                            cell: (item) => item.id,
+                            isRowHeader: true,
                         },
                         {
-                            id: 'userName',
-                            header: 'Owner Username',
-                            cell: item => item.userName
+                            id: "userName",
+                            header: "Owner Username",
+                            cell: (item) => item.userName,
                         },
                         {
-                            id: 'firstName',
-                            header: 'Owner First Name',
-                            cell: item => item.firstName
+                            id: "firstName",
+                            header: "Owner First Name",
+                            cell: (item) => item.firstName,
                         },
                         {
-                            id: 'lastName',
-                            header: 'Owner Last Name',
-                            cell: item => item.lastName
+                            id: "lastName",
+                            header: "Owner Last Name",
+                            cell: (item) => item.lastName,
                         },
                         {
-                            id: 'team',
-                            header: 'Owner Team',
-                            cell: item => item.team
+                            id: "team",
+                            header: "Owner Team",
+                            cell: (item) => item.team,
                         },
                         {
-                            id: 'status',
-                            header: 'Status',
-                            cell: item => item.status
+                            id: "status",
+                            header: "Status",
+                            cell: (item) => item.status,
                         },
                         {
-                            id: 'tags',
-                            header: 'Tags',
-                            cell: item => item.tags
+                            id: "tags",
+                            header: "Tags",
+                            cell: (item) => item.tags,
                         },
                         {
-                            id: 'originalData',
-                            header: 'Original Data',
-                            cell: item => item.originalData
+                            id: "originalData",
+                            header: "Original Data",
+                            cell: (item) => item.originalData,
                         },
                         {
-                            id: 'annotatedData',
-                            header: 'Annotated Data',
-                            cell: item => item.annotatedData
-                        }
+                            id: "annotatedData",
+                            header: "Annotated Data",
+                            cell: (item) => item.annotatedData,
+                        },
                     ]}
                     items={annotationTasks}
                     sortingDisabled
@@ -144,51 +174,61 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
                     stickyHeader
                     variant="embedded"
                     header={
-                        <SpaceBetween direction="horizontal" size={'s'}>
-                            <Button iconName="add-plus" onClick={() => { setAddRecordComponentVisible(true); }}>
-                            Add annotation task
+                        <SpaceBetween direction="horizontal" size={"s"}>
+                            <Button
+                                iconName="add-plus"
+                                onClick={() => {
+                                    setAddRecordComponentVisible(true);
+                                }}
+                            >
+                                Add annotation task
                             </Button>
-                            <Button iconName="edit" onClick={() => { setUpdateRecordComponentVisible(true); }}>
-                            Update annotation task
+                            <Button
+                                iconName="edit"
+                                onClick={() => {
+                                    setUpdateRecordComponentVisible(true);
+                                }}
+                            >
+                                Update annotation task
                             </Button>
                             <Button
                                 iconName="remove"
-                                onClick={() => { setDeleteRecordComponentVisible(true); }}
+                                onClick={() => {
+                                    setDeleteRecordComponentVisible(true);
+                                }}
                                 disabled={!props.isAdmin}
-                                disabledReason={'You need to be admin(a manager) to have access.'}
+                                disabledReason={
+                                    "You need to be admin(a manager) to have access."
+                                }
                             >
-                            Delete annotation task
+                                Delete annotation task
                             </Button>
                         </SpaceBetween>
                     }
                 />
-            }
+            )}
 
-            <WaitMessage
-                apiStatus={apiStatus}
-            />
-            <ErrorMessage
-                errorMessage={error}
-            />
+            <WaitMessage apiStatus={apiStatus} />
+            <ErrorMessage errorMessage={error} />
 
-            {(allUsers != null) &&
-                <AddRecord
+            {allUsers != null && (
+                <AddAnnotationRecord
                     visible={addRecordComponentVisible}
                     setVisible={setAddRecordComponentVisible}
                     allUsers={allUsers}
                 />
-            }
+            )}
 
-            {((annotationTasks != null) && (allUsers != null)) &&
+            {annotationTasks != null && allUsers != null && (
                 <>
-                    <UpdateRecord
+                    <UpdateAnnotationRecord
                         actionType={ACTION_TYPES.UPDATE}
                         visible={updateRecordComponentVisible}
                         setVisible={setUpdateRecordComponentVisible}
                         annotationRecords={annotationTasks}
                         allUsers={allUsers}
                     />
-                    <UpdateRecord
+                    <UpdateAnnotationRecord
                         actionType={ACTION_TYPES.DELETE}
                         visible={deleteRecordComponentVisible}
                         setVisible={setDeleteRecordComponentVisible}
@@ -196,8 +236,7 @@ export default function AnnotationTaskPage (props: AnnotationTaskProps) {
                         allUsers={allUsers}
                     />
                 </>
-            }
-
+            )}
         </Container>
     );
 }

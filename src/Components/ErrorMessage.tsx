@@ -1,19 +1,15 @@
-import Alert from '@cloudscape-design/components/alert';
-import * as React from 'react';
-import { ErrorMessageProps } from '../Utils/Types';
+import Alert from "@cloudscape-design/components/alert";
+import * as React from "react";
+import { ErrorMessageProps } from "../Utils/Types";
 
 export function ErrorMessage(props: ErrorMessageProps) {
-    return(
+    return (
         <>
-            {props.errorMessage &&
-                <Alert
-                    statusIconAriaLabel="Error"
-                    type="error"
-                    header="Error"
-                >
+            {props.errorMessage && (
+                <Alert statusIconAriaLabel="Error" type="error" header="Error">
                     Error: {props.errorMessage}
                 </Alert>
-            }
+            )}
         </>
-    )
+    );
 }

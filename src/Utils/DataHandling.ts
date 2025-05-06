@@ -1,7 +1,9 @@
-import { type AnnotationTasks, type ApiResponseFormat } from './Types';
-import { type ButtonDropdownProps } from '@cloudscape-design/components';
+import { type AnnotationTasks, type ApiResponseFormat } from "./Types";
+import { type ButtonDropdownProps } from "@cloudscape-design/components";
 
-export function formatAnnotationTaskApiResponse (apiResponse: ApiResponseFormat): AnnotationTasks[] | string {
+export function formatAnnotationTaskApiResponse(
+    apiResponse: ApiResponseFormat,
+): AnnotationTasks[] | string {
     try {
         // loops through the 2D array returned and formats the records in the correct format for the table
         let recordIndex = 0;
@@ -18,7 +20,7 @@ export function formatAnnotationTaskApiResponse (apiResponse: ApiResponseFormat)
                 tags: currentRecord[5],
                 firstName: currentRecord[6],
                 lastName: currentRecord[7],
-                team: currentRecord[8]
+                team: currentRecord[8],
             };
             formattedRecords.push(formattedCurrentRecord);
 
@@ -30,7 +32,9 @@ export function formatAnnotationTaskApiResponse (apiResponse: ApiResponseFormat)
     }
 }
 
-export function formatGetUsersApiResponse (apiResponse: ApiResponseFormat): readonly ButtonDropdownProps.Item[] | string {
+export function formatGetUsersApiResponse(
+    apiResponse: ApiResponseFormat,
+): readonly ButtonDropdownProps.Item[] | string {
     try {
         let index = 0;
         const formatted = [];
@@ -39,7 +43,7 @@ export function formatGetUsersApiResponse (apiResponse: ApiResponseFormat): read
 
             const currentFormatted = {
                 id: current[0],
-                text: current[0]
+                text: current[0],
             };
             formatted.push(currentFormatted);
 
@@ -51,45 +55,46 @@ export function formatGetUsersApiResponse (apiResponse: ApiResponseFormat): read
     }
 }
 
-export function isAnnotationRecordValid (
-    userName: string,
+export function isAnnotationRecordValid(
     annotationStatus: string,
     originalData: string,
     annotatedData: string,
-    tags: string
 ): boolean {
     // check if not annotations been added
-    if (originalData === '') {
+    if (originalData === "") {
         return false;
     }
     // check if there is no annotated data that should be there
-    if (annotatedData === '' && annotationStatus === 'Completed') {
+    if (annotatedData === "" && annotationStatus === "Completed") {
         return false;
     }
     return true;
 }
 
 // this converts the inputted list to the input expected by the database
-export function transformTagInput (tags: string) {
-    let convertedTagList: any = tags.split(',');
+export function transformTagInput(tags: string) {
+    let convertedTagList: any = tags.split(",");
     convertedTagList = convertedTagList.map((tag: string) => `"${tag.trim()}"`);
-    convertedTagList = `[${convertedTagList.join(',')}]`;
+    convertedTagList = `[${convertedTagList.join(",")}]`;
     return convertedTagList;
 }
 
 // this takes the database format and converts to the input list format
-export function transformDatabaseTag (tag: string) {
+export function transformDatabaseTag(tag: string) {
     let convertedTagList: string = tag;
     // replace quotes
-    convertedTagList = convertedTagList.replaceAll('"', '');
+    convertedTagList = convertedTagList.replaceAll('"', "");
 
     // replace array brackets
-    convertedTagList = convertedTagList.replaceAll('[', '');
-    convertedTagList = convertedTagList.replaceAll(']', '');
+    convertedTagList = convertedTagList.replaceAll("[", "");
+    convertedTagList = convertedTagList.replaceAll("]", "");
     return convertedTagList;
 }
 
-export function findRecord (annotationRecords: AnnotationTasks[], annotationId: string) {
+export function findRecord(
+    annotationRecords: AnnotationTasks[],
+    annotationId: string,
+) {
     // loop through all records to find one with the same id
     for (const index in annotationRecords) {
         if (String(annotationRecords[index].id) === annotationId) {

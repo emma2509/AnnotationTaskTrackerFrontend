@@ -1,28 +1,33 @@
-import { type AnnotationRecordSearchProps, type AnnotationTasks } from '../Utils/Types';
-import SpaceBetween from '@cloudscape-design/components/space-between';
-import Input from '@cloudscape-design/components/input';
-import Button from '@cloudscape-design/components/button';
-import * as React from 'react';
-import { findRecord, transformDatabaseTag } from '../Utils/DataHandling';
-import Alert from '@cloudscape-design/components/alert';
-import Modal from '@cloudscape-design/components/modal';
-import { ErrorMessage } from '../Components/ErrorMessage';
+import {
+    type AnnotationRecordSearchProps,
+    type AnnotationTasks,
+} from "../Utils/Types";
+import SpaceBetween from "@cloudscape-design/components/space-between";
+import Input from "@cloudscape-design/components/input";
+import Button from "@cloudscape-design/components/button";
+import * as React from "react";
+import { findRecord, transformDatabaseTag } from "../Utils/DataHandling";
+import Modal from "@cloudscape-design/components/modal";
+import { ErrorMessage } from "../Components/ErrorMessage";
 
-export function AnnotationRecordSearch (props: AnnotationRecordSearchProps) {
-    const [error, setError] = React.useState<string>('');
-    const [annotationId, setAnnotationId] = React.useState<string>('');
+export function AnnotationRecordSearch(props: AnnotationRecordSearchProps) {
+    const [error, setError] = React.useState<string>("");
+    const [annotationId, setAnnotationId] = React.useState<string>("");
 
-    function resetComponent () {
-        setAnnotationId('');
-        setError('');
+    function resetComponent() {
+        setAnnotationId("");
+        setError("");
         props.setVisible(false);
     }
 
-    function findRecordButtonClick () {
+    function findRecordButtonClick() {
         // get the original record values
-        const record: AnnotationTasks | null = findRecord(props.allAnnotationRecords, annotationId);
+        const record: AnnotationTasks | null = findRecord(
+            props.allAnnotationRecords,
+            annotationId,
+        );
         if (record == null) {
-            setError('No record with that id found.');
+            setError("No record with that id found.");
             return;
         }
         record.tags = transformDatabaseTag(record.tags); // re-format format database form to user input format
@@ -32,24 +37,32 @@ export function AnnotationRecordSearch (props: AnnotationRecordSearchProps) {
 
     return (
         <Modal
-            onDismiss={() => { resetComponent(); }}
+            onDismiss={() => {
+                resetComponent();
+            }}
             visible={props.visible}
             header={`${props.actionType} annotation record`}
         >
-            <SpaceBetween size={'xs'}>
-                <p>Enter the id of the annotation record you want to {props.actionType}:</p>
+            <SpaceBetween size={"xs"}>
+                <p>
+                    Enter the id of the annotation record you want to{" "}
+                    {props.actionType}:
+                </p>
                 <Input
-                    onChange={({ detail }) => { setAnnotationId(detail.value); }}
+                    onChange={({ detail }) => {
+                        setAnnotationId(detail.value);
+                    }}
                     value={annotationId}
                 />
-                <Button onClick={() => { findRecordButtonClick(); }}>
+                <Button
+                    onClick={() => {
+                        findRecordButtonClick();
+                    }}
+                >
                     {props.actionType}
                 </Button>
 
-                <ErrorMessage
-                    errorMessage={error}
-                />
-
+                <ErrorMessage errorMessage={error} />
             </SpaceBetween>
         </Modal>
     );
