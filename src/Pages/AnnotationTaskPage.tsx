@@ -7,7 +7,7 @@ import Button from "@cloudscape-design/components/button";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import {
     formatAnnotationTaskApiResponse,
-    formatGetUsersApiResponse,
+    formatGetUsersApiResponse, transformDatabaseTag
 } from "../Utils/DataHandling";
 import { type AnnotationTaskProps, type AnnotationTasks } from "../Utils/Types";
 import {
@@ -193,7 +193,7 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                                             status: item.status,
                                             originalData: item.originalData,
                                             annotatedData: item.annotatedData,
-                                            tags: item.tags,
+                                            tags: transformDatabaseTag(item.tags),
                                             firstName: item.firstName,
                                             lastName: item.lastName,
                                             team: item.team,
