@@ -51,7 +51,11 @@ export default function RegisterPage (props: RegisterProps) {
 
         // check if API returns an error
         if (apiResponse.statusCode !== 200) {
-            setErrorMessage(apiResponse.body);
+            if (apiResponse.body.includes("duplicate key value")){
+                setErrorMessage("User name already exists, please pick a new one.");
+            } else {
+                setErrorMessage(apiResponse.body);
+            }
             setApiStatus(API_STATUS.ERROR);
             return;
         }

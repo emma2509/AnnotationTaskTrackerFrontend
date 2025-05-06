@@ -32,7 +32,7 @@ export function UpdateRecord (props: UpdateRecordProps) {
     async function updateRecord () {
         // checks inputs and set error if incorrect input
         if (!isAnnotationRecordValid(userName, annotationStatus, originalData, annotatedData, tags)) {
-            setError('Incorrect inputs');
+            setError('Incorrect inputs, please check the fields above for any issues.');
             return;
         }
         setError('');

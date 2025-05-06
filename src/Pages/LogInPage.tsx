@@ -41,7 +41,11 @@ export default function LogInPage (props: LogInProps) {
 
         // handle api response
         if (apiResponse.statusCode !== 200) {
-            setError(apiResponse.body);
+            if (apiResponse.body.includes("Error: no records found")){
+                setError("User name does not exist in database.");
+            } else {
+                setError(apiResponse.body);
+            }
             setApiStatus(API_STATUS.ERROR);
             return;
         }

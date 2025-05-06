@@ -44,7 +44,12 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                     <FormField label="Annotation Status">
                         <ButtonDropdown
                             items={ANNOTATION_STATUS_OPTIONS}
-                            onItemClick={(item) => { props.setAnnotationStatus(item.detail.id); }}
+                            onItemClick={(item) => {
+                                props.setAnnotationStatus(item.detail.id);
+                                if (item.detail.id !== "Completed") {
+                                    props.setAnnotatedData("")
+                                }
+                            }}
                             disabled={props.actionType === ACTION_TYPES.DELETE}
                         >
                             {props.annotationStatus}
@@ -56,6 +61,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                             onChange={({ detail }) => { props.setOriginalData(detail.value); }}
                             value={props.originalData}
                             disabled={props.actionType === ACTION_TYPES.DELETE}
+                            invalid={props.originalData === ""}
                         />
                     </FormField>
 
@@ -64,6 +70,7 @@ export function AnnotationRecordForm (props: AnnotationRecordFormProps) {
                             onChange={({ detail }) => { props.setAnnotatedData(detail.value); }}
                             value={props.annotatedData}
                             disabled={props.annotationStatus !== 'Completed' || props.actionType === ACTION_TYPES.DELETE}
+                            invalid={props.annotationStatus === 'Completed' && props.annotatedData === ""}
                         />
                     </FormField>
 

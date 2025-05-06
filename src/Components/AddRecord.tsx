@@ -29,7 +29,7 @@ export function AddRecord (props: AddRecordProps) {
     async function addButtonPressed () {
         // checks inputs
         if (!isAnnotationRecordValid(userName, annotationStatus, originalData, annotatedData, tags)) {
-            setError('Incorrect inputs');
+            setError('Incorrect inputs, please check the fields above for any issues.');
             return;
         }
 
