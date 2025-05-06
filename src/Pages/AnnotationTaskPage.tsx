@@ -165,7 +165,7 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                         {
                             id: "originalData",
                             header: "Original Data",
-                            cell: (item) => item.originalData,
+                            cell: (item) => <p>{item.originalData}</p>,
                         },
                         {
                             id: "annotatedData",
@@ -244,6 +244,7 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                     stripedRows
                     resizableColumns
                     stickyHeader
+                    wrapLines
                     variant="embedded"
                     header={
                         <SpaceBetween direction="horizontal" size={"s"}>
