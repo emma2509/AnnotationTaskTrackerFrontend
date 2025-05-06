@@ -178,6 +178,13 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                             cell: (item) => (
                                 <Button
                                     iconName="edit"
+                                    disabled={
+                                        !props.isAdmin &&
+                                        item.userName !== props.userName
+                                    }
+                                    disabledReason={
+                                        "You need to be the annotation task owner or admin to be able to edit this row."
+                                    }
                                     onClick={() => {
                                         setUpdateRecordComponentVisible(true);
                                         setCurrentRecord({

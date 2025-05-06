@@ -9,6 +9,7 @@ import AnnotationTaskPage from "./Pages/AnnotationTaskPage";
 export default function AppRoutes() {
     const [pageView, changePageView] = React.useState<string>("login"); // this hold value for what page view the user is on
     const [isAdmin, setIsAdmin] = React.useState<boolean>(false);
+    const [userName, setUserName] = React.useState<string>("false");
     return (
         <AppLayout
             content={
@@ -23,18 +24,21 @@ export default function AppRoutes() {
                         <LogInPage
                             changePageView={changePageView}
                             setIsAdmin={setIsAdmin}
+                            setUserName={setUserName}
                         />
                     )}
                     {pageView === "register" && (
                         <RegisterPage
                             changePageView={changePageView}
                             setIsAdmin={setIsAdmin}
+                            setUserName={setUserName}
                         />
                     )}
                     {pageView === "annotation" && (
                         <AnnotationTaskPage
                             isAdmin={isAdmin}
                             changePageView={changePageView}
+                            userName={userName}
                         />
                     )}
                 </ContentLayout>

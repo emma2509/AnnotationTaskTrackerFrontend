@@ -7,15 +7,18 @@ import { type ACTION_TYPES, type API_STATUS } from "../Config";
 export interface RegisterProps {
     changePageView: React.Dispatch<React.SetStateAction<string>>;
     setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>;
+    setUserName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface LogInProps {
     changePageView: React.Dispatch<React.SetStateAction<string>>;
     setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>;
+    setUserName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface AnnotationTaskProps {
     isAdmin: boolean;
+    userName: string;
     changePageView: React.Dispatch<React.SetStateAction<string>>;
 }
 

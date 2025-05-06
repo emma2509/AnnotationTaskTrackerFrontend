@@ -86,6 +86,7 @@ export default function LogInPage(props: LogInProps) {
 
         // Successful log in and move to next page
         alert("You have successful logged in!");
+        props.setUserName(userName);
         props.changePageView("annotation");
     }
 

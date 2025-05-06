@@ -87,6 +87,7 @@ export default function RegisterPage(props: RegisterProps) {
         alert("Your account has been successfully created!");
         props.changePageView("annotation");
         props.setIsAdmin(isAdmin);
+        props.setUserName(userName);
     }
 
     return (
