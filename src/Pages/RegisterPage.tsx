@@ -108,6 +108,7 @@ export default function RegisterPage(props: RegisterProps) {
                         onClick={async () => {
                             await buttonClicked();
                         }}
+                        disabled={apiStatus === API_STATUS.WAITING}
                     >
                         Submit
                     </Button>

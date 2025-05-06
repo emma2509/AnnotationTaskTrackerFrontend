@@ -99,6 +99,7 @@ export default function LogInPage(props: LogInProps) {
                         onClick={async () => {
                             await buttonClicked();
                         }}
+                        disabled={apiStatus === API_STATUS.WAITING}
                     >
                         Log in
                     </Button>

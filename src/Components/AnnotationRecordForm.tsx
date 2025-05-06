@@ -124,7 +124,10 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
         >
             <Form
                 actions={
-                    <Button onClick={() => actionButton()}>
+                    <Button
+                        onClick={() => actionButton()}
+                        disabled={apiStatus === API_STATUS.WAITING}
+                    >
                         {props.actionType}
                     </Button>
                 }
