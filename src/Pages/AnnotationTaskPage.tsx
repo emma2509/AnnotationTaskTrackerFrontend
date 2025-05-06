@@ -10,15 +10,21 @@ import {
     formatGetUsersApiResponse,
 } from "../Utils/DataHandling";
 import { type AnnotationTaskProps, type AnnotationTasks } from "../Utils/Types";
-import { ACTION_TYPES, API_METHODS, API_ROUTES, API_STATUS } from "../Config";
-import { AddAnnotationRecord } from "../Components/AddAnnotationRecord";
-import { UpdateAnnotationRecord } from "../Components/UpdateAnnotationRecord";
+import {
+    ACTION_TYPES,
+    ANNOTATION_STATUS_OPTIONS,
+    API_METHODS,
+    API_ROUTES,
+    API_STATUS,
+} from "../Config";
 import { type ButtonDropdownProps } from "@cloudscape-design/components";
 import { ErrorMessage } from "../Components/ErrorMessage";
 import { WaitMessage } from "../Components/WaitMessage";
 import { LogOutButton } from "../Components/LogOutButton";
+import { AnnotationRecordForm } from "../Components/AnnotationRecordForm";
 
 export default function AnnotationTaskPage(props: AnnotationTaskProps) {
+    const [currentRecord, setCurrentRecord] = React.useState<AnnotationTasks>();
     const [addRecordComponentVisible, setAddRecordComponentVisible] =
         React.useState<boolean>(false);
     const [updateRecordComponentVisible, setUpdateRecordComponentVisible] =
@@ -166,6 +172,65 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                             header: "Annotated Data",
                             cell: (item) => item.annotatedData,
                         },
+                        {
+                            id: "edit",
+                            header: "Edit",
+                            cell: (item) => (
+                                <Button
+                                    iconName="edit"
+                                    onClick={() => {
+                                        setUpdateRecordComponentVisible(true);
+                                        setCurrentRecord({
+                                            id: item.id,
+                                            userName: item.userName,
+                                            status: item.status,
+                                            originalData: item.originalData,
+                                            annotatedData: item.annotatedData,
+                                            tags: item.tags,
+                                            firstName: item.firstName,
+                                            lastName: item.lastName,
+                                            team: item.team,
+                                        });
+                                    }}
+                                />
+                            ),
+                            width: 80,
+                            minWidth: 80,
+                        },
+                        {
+                            id: "delete",
+                            header: "Delete",
+                            cell: (item) => (
+                                <Button
+                                    iconName="remove"
+                                    disabled={!props.isAdmin}
+                                    disabledReason={
+                                        "You need to be admin(a manager) to have access."
+                                    }
+                                    onClick={() => {
+                                        {
+                                            setDeleteRecordComponentVisible(
+                                                true,
+                                            );
+                                            setCurrentRecord({
+                                                id: item.id,
+                                                userName: item.userName,
+                                                status: item.status,
+                                                originalData: item.originalData,
+                                                annotatedData:
+                                                    item.annotatedData,
+                                                tags: item.tags,
+                                                firstName: item.firstName,
+                                                lastName: item.lastName,
+                                                team: item.team,
+                                            });
+                                        }
+                                    }}
+                                />
+                            ),
+                            width: 100,
+                            minWidth: 100,
+                        },
                     ]}
                     items={annotationTasks}
                     sortingDisabled
@@ -175,34 +240,28 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                     variant="embedded"
                     header={
                         <SpaceBetween direction="horizontal" size={"s"}>
-                            <Button
-                                iconName="add-plus"
-                                onClick={() => {
-                                    setAddRecordComponentVisible(true);
-                                }}
-                            >
-                                Add annotation task
-                            </Button>
-                            <Button
-                                iconName="edit"
-                                onClick={() => {
-                                    setUpdateRecordComponentVisible(true);
-                                }}
-                            >
-                                Update annotation task
-                            </Button>
-                            <Button
-                                iconName="remove"
-                                onClick={() => {
-                                    setDeleteRecordComponentVisible(true);
-                                }}
-                                disabled={!props.isAdmin}
-                                disabledReason={
-                                    "You need to be admin(a manager) to have access."
-                                }
-                            >
-                                Delete annotation task
-                            </Button>
+                            {allUsers != null && (
+                                <Button
+                                    iconName="add-plus"
+                                    onClick={() => {
+                                        setAddRecordComponentVisible(true);
+                                        setCurrentRecord({
+                                            id: "",
+                                            userName: allUsers[0].id,
+                                            status: ANNOTATION_STATUS_OPTIONS[0]
+                                                .id,
+                                            originalData: "",
+                                            annotatedData: "",
+                                            tags: "",
+                                            firstName: "",
+                                            lastName: "",
+                                            team: "",
+                                        });
+                                    }}
+                                >
+                                    Add annotation task
+                                </Button>
+                            )}
                         </SpaceBetween>
                     }
                 />
@@ -211,29 +270,28 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
             <WaitMessage apiStatus={apiStatus} />
             <ErrorMessage errorMessage={error} />
 
-            {allUsers != null && (
-                <AddAnnotationRecord
-                    visible={addRecordComponentVisible}
-                    setVisible={setAddRecordComponentVisible}
-                    allUsers={allUsers}
-                />
-            )}
-
-            {annotationTasks != null && allUsers != null && (
+            {currentRecord != null && allUsers != null && (
                 <>
-                    <UpdateAnnotationRecord
+                    <AnnotationRecordForm
+                        actionType={ACTION_TYPES.ADD}
+                        visible={addRecordComponentVisible}
+                        setVisible={setAddRecordComponentVisible}
+                        allUsers={allUsers}
+                        annotationRecord={currentRecord}
+                    />
+                    <AnnotationRecordForm
                         actionType={ACTION_TYPES.UPDATE}
                         visible={updateRecordComponentVisible}
                         setVisible={setUpdateRecordComponentVisible}
-                        annotationRecords={annotationTasks}
                         allUsers={allUsers}
+                        annotationRecord={currentRecord}
                     />
-                    <UpdateAnnotationRecord
+                    <AnnotationRecordForm
                         actionType={ACTION_TYPES.DELETE}
                         visible={deleteRecordComponentVisible}
                         setVisible={setDeleteRecordComponentVisible}
-                        annotationRecords={annotationTasks}
                         allUsers={allUsers}
+                        annotationRecord={currentRecord}
                     />
                 </>
             )}

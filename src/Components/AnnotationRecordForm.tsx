@@ -4,21 +4,116 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import FormField from "@cloudscape-design/components/form-field";
 import ButtonDropdown from "@cloudscape-design/components/button-dropdown";
 import Modal from "@cloudscape-design/components/modal";
-import { ACTION_TYPES, ANNOTATION_STATUS_OPTIONS } from "../Config";
+import {
+    ACTION_TYPES,
+    ANNOTATION_STATUS_OPTIONS,
+    API_METHODS,
+    API_ROUTES,
+    API_STATUS,
+} from "../Config";
 import Textarea from "@cloudscape-design/components/textarea";
 import Input from "@cloudscape-design/components/input";
 import * as React from "react";
-import { type AnnotationRecordFormProps } from "../Utils/Types";
+import { AnnotationRecordFormProps } from "../Utils/Types";
 import { ErrorMessage } from "../Components/ErrorMessage";
 import { WaitMessage } from "../Components/WaitMessage";
+import {
+    isAnnotationRecordValid,
+    transformTagInput,
+} from "../Utils/DataHandling";
+import { callApi } from "../Utils/CallApi";
 
-// General component to show annotation record fields for when adding, updating and deleting records
+// Components used to add, update and delete annotation records
 export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
     const header: { [key in ACTION_TYPES]: string } = {
         [ACTION_TYPES.DELETE]: "Are you sure you want to delete this record?",
         [ACTION_TYPES.UPDATE]: "Updating annotation record",
         [ACTION_TYPES.ADD]: "Enter the annotation task details",
     };
+    const [userName, setUserName] = React.useState<string>("");
+    const [annotationStatus, setAnnotationStatus] = React.useState<string>("");
+    const [originalData, setOriginalData] = React.useState<string>("");
+    const [annotatedData, setAnnotatedData] = React.useState<string>("");
+    const [tags, setTags] = React.useState<string>("");
+    const [annotationId, setAnnotationId] = React.useState<string>("");
+    const [error, setError] = React.useState<string>("");
+    const [apiStatus, setApiStatus] = React.useState<API_STATUS>(
+        API_STATUS.NONE,
+    );
+
+    // Re-load values to use most up-to-date ones
+    React.useEffect(() => {
+        setUserName(props.annotationRecord.userName);
+        setAnnotationStatus(props.annotationRecord.status);
+        setOriginalData(props.annotationRecord.originalData);
+        setAnnotatedData(props.annotationRecord.annotatedData);
+        setTags(props.annotationRecord.tags);
+        setAnnotationId(props.annotationRecord.id);
+    }, [props.annotationRecord]);
+
+    async function actionButton() {
+        // checks inputs and set error if incorrect input
+        if (
+            props.actionType === ACTION_TYPES.UPDATE ||
+            props.actionType === ACTION_TYPES.ADD
+        ) {
+            if (
+                !isAnnotationRecordValid(
+                    annotationStatus,
+                    originalData,
+                    annotatedData,
+                )
+            ) {
+                setError(
+                    "Incorrect inputs, please check the fields above for any issues.",
+                );
+                return;
+            }
+        }
+        setError("");
+
+        // api call
+        let apiBody;
+        let apiRoute: API_ROUTES = API_ROUTES.ADD_ANNOTATION;
+        if (props.actionType === ACTION_TYPES.ADD) {
+            apiBody = {
+                "user-name": userName,
+                "annotation-status": annotationStatus,
+                "original-data": originalData,
+                "annotated-data": annotatedData,
+                tags: transformTagInput(tags),
+            };
+            apiRoute = API_ROUTES.ADD_ANNOTATION;
+        } else if (props.actionType === ACTION_TYPES.UPDATE) {
+            apiBody = {
+                "annotation-id": annotationId,
+                "user-name": userName,
+                "annotation-status": annotationStatus,
+                "original-data": originalData,
+                "annotated-data": annotatedData,
+                tags: transformTagInput(tags),
+            };
+            apiRoute = API_ROUTES.UPDATE_ANNOTATION;
+        } else if (props.actionType === ACTION_TYPES.DELETE) {
+            apiBody = { "annotation-id": annotationId };
+            apiRoute = API_ROUTES.DELETE_ANNOTATION;
+        }
+
+        setApiStatus(API_STATUS.WAITING);
+        console.log(apiBody, apiRoute);
+        const apiCall = await callApi(apiBody, apiRoute, API_METHODS.POST);
+        if (apiCall.statusCode !== 200) {
+            setError(
+                `Issue with API call, failed with message: ${apiCall.body}`,
+            );
+            setApiStatus(API_STATUS.ERROR);
+            return;
+        }
+        setApiStatus(API_STATUS.SUCCESS);
+        alert(`${props.actionType} successful!`);
+        props.setVisible(false);
+    }
+
     return (
         <Modal
             onDismiss={() => {
@@ -29,7 +124,7 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
         >
             <Form
                 actions={
-                    <Button onClick={() => props.buttonClick()}>
+                    <Button onClick={() => actionButton()}>
                         {props.actionType}
                     </Button>
                 }
@@ -42,11 +137,11 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
                         <ButtonDropdown
                             items={props.allUsers}
                             onItemClick={(item) => {
-                                props.setUserName(item.detail.id);
+                                setUserName(item.detail.id);
                             }}
                             disabled={props.actionType === ACTION_TYPES.DELETE}
                         >
-                            {props.userName}
+                            {userName}
                         </ButtonDropdown>
                     </FormField>
 
@@ -54,14 +149,14 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
                         <ButtonDropdown
                             items={ANNOTATION_STATUS_OPTIONS}
                             onItemClick={(item) => {
-                                props.setAnnotationStatus(item.detail.id);
+                                setAnnotationStatus(item.detail.id);
                                 if (item.detail.id !== "Completed") {
-                                    props.setAnnotatedData("");
+                                    setAnnotatedData("");
                                 }
                             }}
                             disabled={props.actionType === ACTION_TYPES.DELETE}
                         >
-                            {props.annotationStatus}
+                            {annotationStatus}
                         </ButtonDropdown>
                     </FormField>
 
@@ -71,11 +166,11 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
                     >
                         <Textarea
                             onChange={({ detail }) => {
-                                props.setOriginalData(detail.value);
+                                setOriginalData(detail.value);
                             }}
-                            value={props.originalData}
+                            value={originalData}
                             disabled={props.actionType === ACTION_TYPES.DELETE}
-                            invalid={props.originalData === ""}
+                            invalid={originalData === ""}
                         />
                     </FormField>
 
@@ -85,16 +180,16 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
                     >
                         <Textarea
                             onChange={({ detail }) => {
-                                props.setAnnotatedData(detail.value);
+                                setAnnotatedData(detail.value);
                             }}
-                            value={props.annotatedData}
+                            value={annotatedData}
                             disabled={
-                                props.annotationStatus !== "Completed" ||
+                                annotationStatus !== "Completed" ||
                                 props.actionType === ACTION_TYPES.DELETE
                             }
                             invalid={
-                                props.annotationStatus === "Completed" &&
-                                props.annotatedData === ""
+                                annotationStatus === "Completed" &&
+                                annotatedData === ""
                             }
                         />
                     </FormField>
@@ -105,17 +200,17 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
                     >
                         <Input
                             onChange={({ detail }) => {
-                                props.setTags(detail.value);
+                                setTags(detail.value);
                             }}
-                            value={props.tags}
+                            value={tags}
                             disabled={props.actionType === ACTION_TYPES.DELETE}
                         />
                     </FormField>
                 </SpaceBetween>
             </Form>
 
-            <WaitMessage apiStatus={props.apiStatus} />
-            <ErrorMessage errorMessage={props.error} />
+            <WaitMessage apiStatus={apiStatus} />
+            <ErrorMessage errorMessage={error} />
         </Modal>
     );
 }
