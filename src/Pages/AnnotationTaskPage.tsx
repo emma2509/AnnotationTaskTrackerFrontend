@@ -161,8 +161,8 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                             id: "id",
                             header: "Annotation ID",
                             cell: (item) => item.id,
-                            isRowHeader: true,
                             sortingField: "id",
+                            isRowHeader: true,
                         },
                         {
                             id: "userName",
@@ -182,46 +182,45 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                             id: "lastName",
                             header: "Owner Last Name",
                             cell: (item) => item.lastName,
-                            isRowHeader: true,
                             sortingField: "lastName",
+                            isRowHeader: true,
                         },
                         {
                             id: "team",
                             header: "Owner Team",
                             cell: (item) => item.team,
-                            isRowHeader: true,
                             sortingField: "team",
+                            isRowHeader: true,
                         },
                         {
                             id: "status",
                             header: "Status",
                             cell: (item) => item.status,
-                            isRowHeader: true,
                             sortingField: "status",
+                            isRowHeader: true,
                         },
                         {
                             id: "tags",
                             header: "Tags",
                             cell: (item) => item.tags,
-                            isRowHeader: true,
                             sortingField: "tags",
+                            isRowHeader: true,
                         },
                         {
                             id: "originalData",
                             header: "Original Data",
-                            isRowHeader: true,
                             cell: (item) => item.originalData,
+                            isRowHeader: true,
                         },
                         {
                             id: "annotatedData",
                             header: "Annotated Data",
-                            isRowHeader: true,
                             cell: (item) => item.annotatedData,
+                            isRowHeader: true,
                         },
                         {
                             id: "edit",
                             header: "Edit",
-                            isRowHeader: true,
                             cell: (item) => (
                                 <Button
                                     iconName="edit"
@@ -250,13 +249,13 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                                     }}
                                 />
                             ),
+                            isRowHeader: true,
                             width: 80,
                             minWidth: 80,
                         },
                         {
                             id: "delete",
                             header: "Delete",
-                            isRowHeader: true,
                             cell: (item) => (
                                 <Button
                                     iconName="remove"
@@ -285,6 +284,7 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                                     }}
                                 />
                             ),
+                            isRowHeader: true,
                             width: 100,
                             minWidth: 100,
                         },
