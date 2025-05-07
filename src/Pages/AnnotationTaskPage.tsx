@@ -5,9 +5,11 @@ import Header from "@cloudscape-design/components/header";
 import Table from "@cloudscape-design/components/table";
 import Button from "@cloudscape-design/components/button";
 import SpaceBetween from "@cloudscape-design/components/space-between";
+import { useCollection } from "@cloudscape-design/collection-hooks";
 import {
     formatAnnotationTaskApiResponse,
-    formatGetUsersApiResponse, transformDatabaseTag
+    formatGetUsersApiResponse,
+    transformDatabaseTag,
 } from "../Utils/DataHandling";
 import { type AnnotationTaskProps, type AnnotationTasks } from "../Utils/Types";
 import {
@@ -17,7 +19,11 @@ import {
     API_ROUTES,
     API_STATUS,
 } from "../Config";
-import { type ButtonDropdownProps } from "@cloudscape-design/components";
+import {
+    type ButtonDropdownProps,
+    Pagination,
+    TextFilter,
+} from "@cloudscape-design/components";
 import { ErrorMessage } from "../Components/ErrorMessage";
 import { WaitMessage } from "../Components/WaitMessage";
 import { LogOutButton } from "../Components/LogOutButton";
@@ -31,8 +37,9 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
         React.useState<boolean>(false);
     const [deleteRecordComponentVisible, setDeleteRecordComponentVisible] =
         React.useState<boolean>(false);
-    const [annotationTasks, setAnnotationTasks] =
-        React.useState<AnnotationTasks[]>();
+    const [annotationTasks, setAnnotationTasks] = React.useState<
+        AnnotationTasks[]
+    >([]);
     const [apiStatus, setApiStatus] = React.useState<API_STATUS>(
         API_STATUS.NONE,
     );
@@ -41,6 +48,23 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
     const [allUsers, setAllUsers] = React.useState<
         readonly ButtonDropdownProps.Item[] | undefined
     >(undefined);
+    const {
+        items,
+        filteredItemsCount,
+        collectionProps,
+        filterProps,
+        paginationProps,
+    } = useCollection(annotationTasks, {
+        filtering: {
+            empty: <p>Empty</p>,
+            noMatch: <p>No Match</p>,
+        },
+        pagination: { pageSize: 10 },
+        sorting: {
+            defaultState: { sortingColumn: { sortingField: "id" } },
+        },
+        selection: {},
+    });
 
     async function getAnnotationTasks() {
         // does api call and handles response
@@ -120,61 +144,84 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                 <SpaceBetween direction="horizontal" size={"s"}>
                     <Header>Annotation Tasks </Header>
                     <LogOutButton changePageView={props.changePageView} />
+                    <p>
+                        Showing rows: {filteredItemsCount}/
+                        {annotationTasks.length}
+                    </p>
                 </SpaceBetween>
             }
         >
-            {annotationTasks != null && (
+            {
                 <Table
+                    {...collectionProps}
+                    pagination={<Pagination {...paginationProps} />}
+                    filter={<TextFilter {...filterProps} />}
                     columnDefinitions={[
                         {
                             id: "id",
                             header: "Annotation ID",
                             cell: (item) => item.id,
                             isRowHeader: true,
+                            sortingField: "id",
                         },
                         {
                             id: "userName",
                             header: "Owner Username",
                             cell: (item) => item.userName,
+                            sortingField: "userName",
+                            isRowHeader: true,
                         },
                         {
                             id: "firstName",
                             header: "Owner First Name",
                             cell: (item) => item.firstName,
+                            sortingField: "firstName",
+                            isRowHeader: true,
                         },
                         {
                             id: "lastName",
                             header: "Owner Last Name",
                             cell: (item) => item.lastName,
+                            isRowHeader: true,
+                            sortingField: "lastName",
                         },
                         {
                             id: "team",
                             header: "Owner Team",
                             cell: (item) => item.team,
+                            isRowHeader: true,
+                            sortingField: "team",
                         },
                         {
                             id: "status",
                             header: "Status",
                             cell: (item) => item.status,
+                            isRowHeader: true,
+                            sortingField: "status",
                         },
                         {
                             id: "tags",
                             header: "Tags",
                             cell: (item) => item.tags,
+                            isRowHeader: true,
+                            sortingField: "tags",
                         },
                         {
                             id: "originalData",
                             header: "Original Data",
-                            cell: (item) => <p>{item.originalData}</p>,
+                            isRowHeader: true,
+                            cell: (item) => item.originalData,
                         },
                         {
                             id: "annotatedData",
                             header: "Annotated Data",
+                            isRowHeader: true,
                             cell: (item) => item.annotatedData,
                         },
                         {
                             id: "edit",
                             header: "Edit",
+                            isRowHeader: true,
                             cell: (item) => (
                                 <Button
                                     iconName="edit"
@@ -193,7 +240,9 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                                             status: item.status,
                                             originalData: item.originalData,
                                             annotatedData: item.annotatedData,
-                                            tags: transformDatabaseTag(item.tags),
+                                            tags: transformDatabaseTag(
+                                                item.tags,
+                                            ),
                                             firstName: item.firstName,
                                             lastName: item.lastName,
                                             team: item.team,
@@ -207,6 +256,7 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                         {
                             id: "delete",
                             header: "Delete",
+                            isRowHeader: true,
                             cell: (item) => (
                                 <Button
                                     iconName="remove"
@@ -239,8 +289,7 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                             minWidth: 100,
                         },
                     ]}
-                    items={annotationTasks}
-                    sortingDisabled
+                    items={items}
                     stripedRows
                     resizableColumns
                     stickyHeader
@@ -273,7 +322,7 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                         </SpaceBetween>
                     }
                 />
-            )}
+            }
 
             <WaitMessage apiStatus={apiStatus} />
             <ErrorMessage errorMessage={error} />
