@@ -7,8 +7,9 @@ For the UI components, this package uses [AWS Cloudscape](https://cloudscape.des
 ## Installation and set up
 
 - Ensure you have node and npm
-- Run `npm install` - this will install all libraries and packages needed
-- If you want to connect to the locally running API then change the `API_URL` const in the config file
+- Run `npm install` - this will install all libraries and packages needed for running this app.
+- If you want to connect to a locally running API then change the `API_URL` const in the config file to the local running API URL.
+- Run `npm start` to start running the app locally. 
 
 ## Linter
 
