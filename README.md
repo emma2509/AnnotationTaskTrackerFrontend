@@ -54,6 +54,59 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
+## UI User Manual
+The UI is hosted on Render and can be accessed here: https://annotationtasktrackerfrontend.onrender.com/
+
+Please note, when there has been a long period of inactivity with the backend it will shut down causing new calls to take a
+long time (approximately 2 minutes) due to waiting for the instance to spin up again so please be patient.
+
+
+#### Log In/Register Page
+The login page below is the first page you are met with when opening the application.
+
+![log-in-page](./UserManual/log-in-page.png)
+
+*Steps on how to log into an existing user account:*
+1. Open the application
+2. Enter the account username and password.
+3. Click “Log in”.
+4. Then you will be taken to the Annotation Task page.
+
+
+Below is the register page.
+![register-page](./UserManual/register-page.png)
+
+*Steps on how to create a new user:*
+1. Open the application
+2. Click on the link at the bottom of the login form to open the register page.
+3. Enter the form inputs (Note: the manager toggle input will determine what permissions you have on your account that
+you are creating. If you want to be able to perform all actions (create, read, update and delete) then tick this.
+If you want a regular user account (create, read and update actions) then do not tick this).
+4. Click “Submit”.
+5. Then you will be taken to the Annotation Task page.
+
+
+#### Annotation Page
+Below is the annotation page where you are taken after you have logged in. On this page you can manage the annotation tasks.
+
+![annotation-page](./UserManual/annotation-page.png)
+*How to view the annotation tasks in the annotation page:*
+1. Open the application.
+2. Either log into an existing account or create a new account (see instructions above).
+3. After this you will be taken to the Annotation Task page.
+4. Here you can see manage the annotation tasks.
+
+*Annotation task management actions you can do here:*
+1. View all the annotation tasks - this includes searching/filtering through the rows, expanding the column and ordering by column values.
+2. Add annotation task – this is done by clicking the “Add Annotation Task” button and following the pop-up seen below.
+![add-annotation-pop-up](./UserManual/add-annotation-pop-up.png)
+3. Update annotation task - click on the pencil icon at the end of the row you want to update.
+You will be taken to the following pop-up to update the task fields.
+You need admin access or be the owner of the annotation task to do this.
+![update-annotation-pop-up](./UserManual/update-annotation-pop-up.png)
+4. Delete annotation task - click on the bin icon at the end of the row you want to delete. You need admin access to do this.
+
+
 ## Learn More
 
 You can learn more in the [Create React Route documentation](https://facebook.github.io/create-react-app/docs/getting-started).
