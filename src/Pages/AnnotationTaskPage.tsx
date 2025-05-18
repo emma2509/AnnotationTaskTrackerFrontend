@@ -70,9 +70,11 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
         // does api call and handles response
         setApiStatus(API_STATUS.WAITING);
         const apiResponse = await callApi(
-            "",
+            {},
             API_ROUTES.GET_ANNOTATIONS,
             API_METHODS.GET,
+            props.userName,
+            props.password
         );
         if (apiResponse.statusCode !== 200) {
             setApiStatus(API_STATUS.ERROR);
@@ -95,9 +97,11 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
         // api call to get users
         setApiStatus(API_STATUS.WAITING);
         const getUsers = await callApi(
-            "",
+            {},
             API_ROUTES.GET_USERS,
             API_METHODS.GET,
+            props.userName,
+            props.password
         );
         if (getUsers.statusCode !== 200) {
             setApiStatus(API_STATUS.ERROR);
@@ -335,6 +339,8 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                         setVisible={setAddRecordComponentVisible}
                         allUsers={allUsers}
                         annotationRecord={currentRecord}
+                        userName={props.userName}
+                        password={props.password}
                     />
                     <AnnotationRecordForm
                         actionType={ACTION_TYPES.UPDATE}
@@ -342,6 +348,8 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                         setVisible={setUpdateRecordComponentVisible}
                         allUsers={allUsers}
                         annotationRecord={currentRecord}
+                        userName={props.userName}
+                        password={props.password}
                     />
                     <AnnotationRecordForm
                         actionType={ACTION_TYPES.DELETE}
@@ -349,6 +357,8 @@ export default function AnnotationTaskPage(props: AnnotationTaskProps) {
                         setVisible={setDeleteRecordComponentVisible}
                         allUsers={allUsers}
                         annotationRecord={currentRecord}
+                        userName={props.userName}
+                        password={props.password}
                     />
                 </>
             )}

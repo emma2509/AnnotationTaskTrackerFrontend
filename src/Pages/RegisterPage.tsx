@@ -69,6 +69,8 @@ export default function RegisterPage(props: RegisterProps) {
             requestBody,
             API_ROUTES.ADD_USER,
             API_METHODS.POST,
+            userName,
+            password
         );
 
         // check if API returns an error
@@ -88,6 +90,7 @@ export default function RegisterPage(props: RegisterProps) {
         props.changePageView("annotation");
         props.setIsAdmin(isAdmin);
         props.setUserName(userName);
+        props.setPassword(password);
     }
 
     return (

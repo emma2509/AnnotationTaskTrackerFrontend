@@ -8,17 +8,20 @@ export interface RegisterProps {
     changePageView: React.Dispatch<React.SetStateAction<string>>;
     setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>;
     setUserName: React.Dispatch<React.SetStateAction<string>>;
+    setPassword: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface LogInProps {
     changePageView: React.Dispatch<React.SetStateAction<string>>;
     setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>;
     setUserName: React.Dispatch<React.SetStateAction<string>>;
+    setPassword: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface AnnotationTaskProps {
     isAdmin: boolean;
     userName: string;
+    password: string;
     changePageView: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -45,6 +48,8 @@ export interface AnnotationRecordFormProps {
     annotationRecord: AnnotationTasks;
     allUsers: readonly ButtonDropdownProps.Item[];
     actionType: ACTION_TYPES;
+    userName: string;
+    password: string;
 }
 
 export interface ErrorMessageProps {

@@ -73,7 +73,7 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
         setError("");
 
         // api call
-        let apiBody;
+        let apiBody = {};
         let apiRoute: API_ROUTES = API_ROUTES.ADD_ANNOTATION;
         if (props.actionType === ACTION_TYPES.ADD) {
             apiBody = {
@@ -81,7 +81,7 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
                 "annotation-status": annotationStatus,
                 "original-data": originalData,
                 "annotated-data": annotatedData,
-                tags: transformTagInput(tags),
+                "tags": transformTagInput(tags),
             };
             apiRoute = API_ROUTES.ADD_ANNOTATION;
         } else if (props.actionType === ACTION_TYPES.UPDATE) {
@@ -91,7 +91,7 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
                 "annotation-status": annotationStatus,
                 "original-data": originalData,
                 "annotated-data": annotatedData,
-                tags: transformTagInput(tags),
+                "tags": transformTagInput(tags),
             };
             apiRoute = API_ROUTES.UPDATE_ANNOTATION;
         } else if (props.actionType === ACTION_TYPES.DELETE) {
@@ -101,7 +101,7 @@ export function AnnotationRecordForm(props: AnnotationRecordFormProps) {
 
         setApiStatus(API_STATUS.WAITING);
         console.log(apiBody, apiRoute);
-        const apiCall = await callApi(apiBody, apiRoute, API_METHODS.POST);
+        const apiCall = await callApi(apiBody, apiRoute, API_METHODS.POST, props.userName, props.password);
         if (apiCall.statusCode !== 200) {
             setError(
                 `Issue with API call, failed with message: ${apiCall.body}`,

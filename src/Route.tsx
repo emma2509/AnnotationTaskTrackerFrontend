@@ -10,6 +10,7 @@ export default function AppRoutes() {
     const [pageView, changePageView] = React.useState<string>("login"); // this hold value for what page view the user is on
     const [isAdmin, setIsAdmin] = React.useState<boolean>(false);
     const [userName, setUserName] = React.useState<string>("false");
+    const [password, setPassword] = React.useState<string>("false");
     return (
         <AppLayout
             content={
@@ -25,6 +26,7 @@ export default function AppRoutes() {
                             changePageView={changePageView}
                             setIsAdmin={setIsAdmin}
                             setUserName={setUserName}
+                            setPassword={setPassword}
                         />
                     )}
                     {pageView === "register" && (
@@ -32,6 +34,7 @@ export default function AppRoutes() {
                             changePageView={changePageView}
                             setIsAdmin={setIsAdmin}
                             setUserName={setUserName}
+                            setPassword={setPassword}
                         />
                     )}
                     {pageView === "annotation" && (
@@ -39,6 +42,7 @@ export default function AppRoutes() {
                             isAdmin={isAdmin}
                             changePageView={changePageView}
                             userName={userName}
+                            password={password}
                         />
                     )}
                 </ContentLayout>
