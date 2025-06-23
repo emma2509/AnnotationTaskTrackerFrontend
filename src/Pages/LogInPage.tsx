@@ -1,5 +1,8 @@
-import Button from "@cloudscape-design/components/button";
+// <-***** React (2025) [1] - START
 import * as React from "react";
+// ->***** React (2025) [1] - END
+// <-***** AWS (2025) [2] - START
+import Button from "@cloudscape-design/components/button";
 import Container from "@cloudscape-design/components/container";
 import Header from "@cloudscape-design/components/header";
 import Form from "@cloudscape-design/components/form";
@@ -7,6 +10,7 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import FormField from "@cloudscape-design/components/form-field";
 import Input from "@cloudscape-design/components/input";
 import Link from "@cloudscape-design/components/link";
+// ->***** AWS (2025) [2] - END
 import { callApi } from "../Utils/CallApi";
 import { type LogInProps } from "../Utils/Types";
 import { API_METHODS, API_ROUTES, API_STATUS } from "../Config";

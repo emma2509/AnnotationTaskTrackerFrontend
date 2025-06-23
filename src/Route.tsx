@@ -1,8 +1,12 @@
 import LogInPage from "./Pages/LogInPage";
+// <-***** React (2025) [1] - START
 import * as React from "react";
+// ->***** React (2025) [1] - END
+// <-***** AWS (2025) [2] - START
 import ContentLayout from "@cloudscape-design/components/content-layout";
 import Header from "@cloudscape-design/components/header";
 import AppLayout from "@cloudscape-design/components/app-layout";
+// ->***** AWS (2025) [2] - END
 import RegisterPage from "./Pages/RegisterPage";
 import AnnotationTaskPage from "./Pages/AnnotationTaskPage";
 

@@ -136,3 +136,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+## Reference list
+React (2010) [online] React, Available from: https://react.dev/ [Accessed 23/06/2025] [1]
+
+AWS (2025) [online] Cloudscape, Available from: https://cloudscape.design/ [Accessed 23/06/2025] [2]

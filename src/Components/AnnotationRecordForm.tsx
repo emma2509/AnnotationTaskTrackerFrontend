@@ -1,9 +1,13 @@
+// <-***** AWS (2025) [2] - START
 import Form from "@cloudscape-design/components/form";
 import Button from "@cloudscape-design/components/button";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import FormField from "@cloudscape-design/components/form-field";
 import ButtonDropdown from "@cloudscape-design/components/button-dropdown";
 import Modal from "@cloudscape-design/components/modal";
+import Textarea from "@cloudscape-design/components/textarea";
+import Input from "@cloudscape-design/components/input";
+// ->***** AWS (2025) [2] - END
 import {
     ACTION_TYPES,
     ANNOTATION_STATUS_OPTIONS,
@@ -11,9 +15,9 @@ import {
     API_ROUTES,
     API_STATUS,
 } from "../Config";
-import Textarea from "@cloudscape-design/components/textarea";
-import Input from "@cloudscape-design/components/input";
+// <-***** React (2025) [1] - START
 import * as React from "react";
+// ->***** React (2025) [1] - END
 import { AnnotationRecordFormProps } from "../Utils/Types";
 import { ErrorMessage } from "../Components/ErrorMessage";
 import { WaitMessage } from "../Components/WaitMessage";

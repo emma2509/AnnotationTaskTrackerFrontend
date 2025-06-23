@@ -1,8 +1,12 @@
+// <-***** AWS (2025) [2] - START
 import Button from "@cloudscape-design/components/button";
 import Modal from "@cloudscape-design/components/modal";
-import { type LogOutButtonProps } from "../Utils/Types";
-import React from "react";
 import SpaceBetween from "@cloudscape-design/components/space-between";
+// ->***** AWS (2025) [2] - END
+import { type LogOutButtonProps } from "../Utils/Types";
+// <-***** React (2025) [1] - START
+import React from "react";
+// ->***** React (2025) [1] - END
 
 export function LogOutButton(props: LogOutButtonProps) {
     const [popUpVisible, setPopUpVisible] = React.useState(false);

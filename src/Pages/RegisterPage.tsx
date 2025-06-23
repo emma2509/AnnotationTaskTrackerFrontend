@@ -1,3 +1,4 @@
+// <-***** AWS (2025) [2] - START
 import Form from "@cloudscape-design/components/form";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
@@ -5,14 +6,17 @@ import Container from "@cloudscape-design/components/container";
 import Header from "@cloudscape-design/components/header";
 import FormField from "@cloudscape-design/components/form-field";
 import Input from "@cloudscape-design/components/input";
-import * as React from "react";
 import Toggle from "@cloudscape-design/components/toggle";
+import Link from "@cloudscape-design/components/link";
+// ->***** AWS (2025) [2] - END
+// <-***** React (2025) [1] - START
+import * as React from "react";
+// ->***** React (2025) [1] - END
 import { callApi } from "../Utils/CallApi";
 import { type RegisterProps } from "../Utils/Types";
 import { API_METHODS, API_ROUTES, API_STATUS } from "../Config";
 import { ErrorMessage } from "../Components/ErrorMessage";
 import { WaitMessage } from "../Components/WaitMessage";
-import Link from "@cloudscape-design/components/link";
 
 export default function RegisterPage(props: RegisterProps) {
     // Set initial states

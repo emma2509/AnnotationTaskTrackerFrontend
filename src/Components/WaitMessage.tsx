@@ -1,6 +1,10 @@
 import { API_STATUS } from "../Config";
+// <-***** AWS (2025) [2] - START
 import Alert from "@cloudscape-design/components/alert";
+// ->***** AWS (2025) [2] - END
+// <-***** React (2025) [1] - START
 import * as React from "react";
+// ->***** React (2025) [1] - END
 import { WaitMessageProps } from "../Utils/Types";
 
 export function WaitMessage(props: WaitMessageProps) {

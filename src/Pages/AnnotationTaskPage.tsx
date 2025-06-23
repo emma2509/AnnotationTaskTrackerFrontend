@@ -1,11 +1,15 @@
 import { callApi } from "../Utils/CallApi";
+// <-***** React (2025) [1] - START
 import * as React from "react";
+// ->***** React (2025) [1] - END
+// <-***** AWS (2025) [2] - START
 import Container from "@cloudscape-design/components/container";
 import Header from "@cloudscape-design/components/header";
 import Table from "@cloudscape-design/components/table";
 import Button from "@cloudscape-design/components/button";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import { useCollection } from "@cloudscape-design/collection-hooks";
+// ->***** AWS (2025) [2] - END
 import {
     formatAnnotationTaskApiResponse,
     formatGetUsersApiResponse,
